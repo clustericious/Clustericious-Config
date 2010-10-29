@@ -1,0 +1,12 @@
+Build.PL
+etc/common.conf.sample
+etc/log4perl.conf.sample
+etc/MyApp.conf.sample
+lib/Clustericious/Config.pm
+lib/Clustericious/Config/Plugin.pm
+MANIFEST			This list of files
+README
+t/config.t
+t/config_multi.t
+Makefile.PL
+META.yml

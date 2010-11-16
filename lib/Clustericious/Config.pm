@@ -32,6 +32,17 @@ Clustericious::Config - configuration files for clustericious nodes.
     }
  }
 
+OR as YAML :
+
+ url : <%= $url %>,
+ daemon_prefork : {
+      listen   : <%= $url %>,
+      pid      : /tmp/<%= $app %>.pid,
+      lock     : /tmp/<%= $app %>.lock,
+      maxspare : 2,
+      start    : 2
+  }
+
 Then later in a program somewhere :
 
  my $c = Clustericious::Config->new("MyApp");
@@ -52,7 +63,7 @@ Then later in a program somewhere :
 
 =head1 DESCRIPTION
 
-Read config files which are Mojo::Template's of JSON files.
+Read config files which are Mojo::Template's of JSON or YAML files.
 
 After rendering the template and parsing the JSON, the resulting
 object may be called using method calls or treated as hashes.
@@ -76,6 +87,9 @@ from another config file.  The first argument to extends_config is the
 basename of the config file.  Additional named arguments may be passed
 to that config file and used as variables within that file.
 
+If a config file begins with "---", it will be parsed as YAML
+instead of JSON.
+
 =head1 SEE ALSO
 
 Mojo::Template
@@ -91,6 +105,7 @@ our $VERSION = '0.01';
 
 use List::Util qw/first/;
 use JSON::XS;
+use YAML::XS qw/Load/;
 use Mojo::Template;
 use Log::Log4perl qw/:easy/;
 use Storable qw/dclone/;
@@ -119,7 +134,9 @@ sub new {
     if (ref $arg eq 'SCALAR') {
         my $rendered = $mt->render($$arg);
         die $rendered if ( (ref($rendered)) =~ /Exception/ );
-        $conf_data = eval { $json->decode( $rendered ); };
+        $conf_data = $rendered =~ /^---/  ?
+           eval { Load( $rendered ); }
+         : eval { $json->decode( $rendered ); };
         LOGDIE "Could not parse\n-------\n$rendered\n---------\n$@\n" if $@;
     } elsif (ref $arg eq 'HASH') {
         $conf_data = dclone $arg;

@@ -4,6 +4,7 @@ author:
   - 'Brian Duggan <brian.duggan@nasa.gov>'
 build_requires:
   Hash::Merge: 0
+  IO::Prompt: 0
   JSON::XS: 0
   Module::Build: 0.36
   Mojolicious: 0.999931
@@ -20,9 +21,9 @@ name: Clustericious-Config
 provides:
   Clustericious::Config:
     file: lib/Clustericious/Config.pm
-    version: 0.01
+    version: 0.02
   Clustericious::Config::Plugin:
     file: lib/Clustericious/Config/Plugin.pm
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.02

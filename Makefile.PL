@@ -6,6 +6,7 @@ WriteMakefile
           'VERSION_FROM' => 'lib/Clustericious/Config.pm',
           'PREREQ_PM' => {
                            'Hash::Merge' => 0,
+                           'IO::Prompt' => 0,
                            'JSON::XS' => 0,
                            'Module::Build' => '0.36',
                            'Mojolicious' => '0.999931',

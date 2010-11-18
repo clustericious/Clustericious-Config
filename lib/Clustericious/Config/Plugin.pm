@@ -1,3 +1,13 @@
+=head1 NAME
+
+Clustericious::Config::Plugin -- Plugins for clustericious config files.
+
+=head1 FUNCTIONS
+
+=over
+
+=cut
+
 package Clustericious::Config::Plugin;
 
 use Hash::Merge qw/merge/;
@@ -7,6 +17,12 @@ use warnings;
 
 our @mergeStack;
 
+=item extends_config
+
+Extend the config using another config file.  See L<Clustericious::Config>.
+
+=cut
+
 sub extends_config {
     my $filename = shift;
     my @args = @_;
@@ -14,6 +30,13 @@ sub extends_config {
     return '';
 }
 
+#
+#
+# do_merges:
+#
+# Called after reading all config files, to process extends_config
+# directives.
+#
 sub do_merges {
     my $class = shift;
     my $conf_data = shift; # Last one; Has highest precedence.
@@ -29,5 +52,16 @@ sub do_merges {
     }
     %$conf_data = %{ merge( \%so_far, $conf_data ) };
 }
+
+=item get_password
+
+Prompt for a password, if it is needed.
+
+=cut
+
+sub get_password {
+    return Clustericious::Config::Password->sentinel;
+}
+
 
 1;

@@ -17,6 +17,7 @@ my $builder = Module::Build->new(
         'JSON::XS'             => 0,
         'YAML::XS'             => 0,
         'Hash::Merge'          => 0,
+        'IO::Prompt'           => 0,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
     create_makefile_pl => 'traditional',

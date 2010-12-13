@@ -61,6 +61,9 @@ Then later in a program somewhere :
  $c->url(default => "http://example.com");
  print $c->this_param_is_missing(default => "something_else");
 
+ # Dump out the entire config as yaml
+ print $c->dump_as_yaml;
+
 =head1 DESCRIPTION
 
 Read config files which are Mojo::Template's of JSON or YAML files.
@@ -113,7 +116,7 @@ our $VERSION = '0.03';
 
 use List::Util qw/first/;
 use JSON::XS;
-use YAML::XS qw/Load/;
+use YAML::XS qw/Load Dump/;
 use Mojo::Template;
 use Log::Log4perl qw/:easy/;
 use Storable qw/dclone/;
@@ -174,6 +177,11 @@ sub new {
     }
     Clustericious::Config::Plugin->do_merges($conf_data);
     bless $conf_data, $class;
+}
+
+sub dump_as_yaml {
+    my $c = shift;
+    return Dump($c);
 }
 
 sub _stringify {

@@ -162,7 +162,10 @@ sub new {
             TRACE "reading from config file $dir/$conf_file";
             my $rendered = $mt->render_file("$dir/$conf_file");
             die $rendered if ( (ref $rendered) =~ /Exception/ );
-            $conf_data = eval { $json->decode( $rendered ) };
+            $conf_data =
+              $rendered =~ /^---/
+              ? eval { Load($rendered) }
+              : eval { $json->decode($rendered) };
             LOGDIE "Could not parse\n-------\n$rendered\n---------\n$@\n" if $@;
         } else {
             TRACE "could not find $conf_file file in: @conf_dirs" unless $dir;

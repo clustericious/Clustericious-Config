@@ -176,6 +176,18 @@ sub new {
         }
     }
     Clustericious::Config::Plugin->do_merges($conf_data);
+    # Use derived classes so that AUTOLOADING keeps namespaces separate
+    # for various apps.
+    if ($class eq __PACKAGE__) {
+        if (ref $arg) {
+            $arg = "$arg";
+            $arg =~ tr/a-zA-Z0-9//cd;
+        }
+        $class = join '::', $class, $arg;
+        my $dome = '@'."$class"."::ISA = ('".__PACKAGE__. "')";
+        eval $dome;
+        die "error setting ISA : $@" if $@;
+    }
     bless $conf_data, $class;
 }
 
@@ -207,11 +219,12 @@ sub AUTOLOAD {
         if $called =~ /^_/ || !exists($self->{$called});
     my $value = $self->{$called};
     my $obj;
+    my $invocant = ref $self;
     if (ref $value eq 'HASH') {
-        $obj = __PACKAGE__->new($value);
+        $obj = $invocant->new($value);
     }
     no strict 'refs';
-    *{ __PACKAGE__ . "::$called" } = sub {
+    *{ $invocant . "::$called" } = sub {
           my $self = shift;
           $self->{$called} = $default if $default_exists && !exists($self->{$called});
           die "'$called' not found in ".join ',',keys(%$self)

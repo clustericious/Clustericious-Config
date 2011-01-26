@@ -1,7 +1,6 @@
 package Clustericious::Config::Password;
 
 use Data::Dumper;
-use IO::Prompt qw/prompt/;
 
 use strict;
 use warnings;
@@ -14,7 +13,8 @@ sub sentinel {
 
 sub get {
     my $self = shift;
-    $Stashed ||= prompt ("Password:",-e=>'*');
+    require IO::Prompt; # done here instead of above to avoid warnings about CHECK block
+    $Stashed ||= IO::Prompt::prompt ("Password:",-e=>'*');
     $Stashed;
 }
 

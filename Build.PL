@@ -13,11 +13,12 @@ my $builder = Module::Build->new(
     build_requires => {
         'Module::Build'        => '0.36',
         'Test::More'           => 0,
-        'Mojolicious'          => '0.999931',
+        'Mojolicious'          => '1.01',
         'JSON::XS'             => 0,
         'YAML::XS'             => 0,
         'Hash::Merge'          => 0,
         'IO::Prompt'           => 0,
+        'Log::Log4perl'        => 0,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
     create_makefile_pl => 'traditional',

@@ -6,13 +6,14 @@ build_requires:
   Hash::Merge: 0
   IO::Prompt: 0
   JSON::XS: 0
+  Log::Log4perl: 0
   Module::Build: 0.36
-  Mojolicious: 0.999931
+  Mojolicious: 1.01
   Test::More: 0
   YAML::XS: 0
 configure_requires:
   Module::Build: 0.36
-generated_by: 'Module::Build version 0.3607'
+generated_by: 'Module::Build version 0.3603'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -21,11 +22,11 @@ name: Clustericious-Config
 provides:
   Clustericious::Config:
     file: lib/Clustericious/Config.pm
-    version: 0.04
+    version: 0.05
   Clustericious::Config::Password:
     file: lib/Clustericious/Config/Password.pm
   Clustericious::Config::Plugin:
     file: lib/Clustericious/Config/Plugin.pm
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.04
+version: 0.05

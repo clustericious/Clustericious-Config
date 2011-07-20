@@ -80,5 +80,8 @@ is_deeply \%h, \%i, "got as a hash";
 is $c->specialvalue, 123, "read from another conf file";
 is $c->override_me, 11, "override a config variable";
 
+is ( (Clustericious::Config->new("SomeTestService")->flooble(default => "frog")), 'frog', 'set a default');
+is ( (Clustericious::Config->new("SomeTestService")->flooble), 'frog', 'get a default');
+
 1;
 

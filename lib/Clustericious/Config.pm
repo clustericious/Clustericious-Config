@@ -221,8 +221,10 @@ sub AUTOLOAD {
     if ($default_exists && !exists($self->{$called})) {
         $self->{$called} = $args{default};
     }
-    Carp::cluck "config element '$called' not found for ".(ref $self)." (".(join ',',keys(%$self)).")"
-        if $called =~ /^_/ || !exists($self->{$called});
+    unless ($ENV{HARNESS_ACTIVE}) {
+        Carp::cluck "config element '$called' not found for ".(ref $self)." (".(join ',',keys(%$self)).")"
+            if $called =~ /^_/ || !exists($self->{$called});
+    }
     my $value = $self->{$called};
     my $obj;
     my $invocant = ref $self;

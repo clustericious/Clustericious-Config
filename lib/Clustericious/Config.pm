@@ -134,7 +134,7 @@ sub _is_subdir {
     my ($child,$parent) = @_;
     my $p = abs_path($parent);
     my $c = abs_path($child);
-    return ($c =~ m[^$p]) ? 1 : 0;
+    return ($c =~ m[^\Q$p\E]) ? 1 : 0;
 }
 
 sub new {

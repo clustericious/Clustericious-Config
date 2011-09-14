@@ -82,8 +82,13 @@ Config files are looked for in the following places (in order, where
 
 If the environment variable HARNESS_ACTIVE is set,
 and the current module::build object tells us that
-the calling module is being tested, then only
-$ENV{CLUSTERICIOUS_CONF_DIR} is used.
+the calling module is being tested, then an empty
+configuration is used.  In this situation, however,
+if $ENV{CLUSTERICIOUS_CONF_DIR} is set and if it
+is a subdirectory of the current directory, then
+it will be used.  This allows unit tests to provide
+configuration directories, but avoids using configurations
+that are outside of the build tree during unit testing.
 
 The helper "extends_config" may be used to read default settings
 from another config file.  The first argument to extends_config is the
@@ -122,7 +127,15 @@ use Log::Log4perl qw/:easy/;
 use Storable qw/dclone/;
 use Clustericious::Config::Plugin;
 use Data::Dumper;
+use Cwd qw/getcwd abs_path/;
 use Module::Build;
+
+sub _is_subdir {
+    my ($child,$parent) = @_;
+    my $p = abs_path($parent);
+    my $c = abs_path($child);
+    return ($c =~ m[^$p]) ? 1 : 0;
+}
 
 sub new {
     my $class = shift;
@@ -152,8 +165,13 @@ sub new {
         LOGDIE "Could not parse $type \n-------\n$rendered\n---------\n$@\n" if $@;
     } elsif (ref $arg eq 'HASH') {
         $conf_data = dclone $arg;
-    } elsif ($we_are_testing_this_module && !$ENV{CLUSTERICIOUS_CONF_DIR}) {
-        $conf_data = {};
+    } elsif (
+          $we_are_testing_this_module
+          && !(
+              $ENV{CLUSTERICIOUS_CONF_DIR}
+              && _is_subdir( $ENV{CLUSTERICIOUS_CONF_DIR}, getcwd() )
+          )) {
+          $conf_data = {};
     } else {
         my @conf_dirs;
 

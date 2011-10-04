@@ -130,6 +130,8 @@ use Data::Dumper;
 use Cwd qw/getcwd abs_path/;
 use Module::Build;
 
+our %Singletons;
+
 sub _is_subdir {
     my ($child,$parent) = @_;
     my $p = abs_path($parent);
@@ -142,6 +144,7 @@ sub new {
     my %t_args = (ref $_[-1] eq 'ARRAY' ? @{( pop )} : () );
     my $arg = $_[0];
     ($arg = caller) =~ s/:.*$// unless $arg; # Determine from caller's class
+    return $Singletons{$arg} if exists($Singletons{$arg});
 
     my $we_are_testing_this_module = 0;
     if ($ENV{HARNESS_ACTIVE} and Module::Build->can("current")) {
@@ -264,6 +267,22 @@ sub AUTOLOAD {
     };
     use strict 'refs';
     $self->$called;
+}
+
+=item set_singleton
+
+Clustericicious::Config->set_singleton(App => $object);
+
+Cache a config object to be returned by the constructor.
+
+=cut
+
+sub set_singleton {
+    my $class = shift;
+    my $app = shift;
+    my $obj = shift;
+    our %Singletons;
+    $Singletons{$app} = $obj;
 }
 
 1;

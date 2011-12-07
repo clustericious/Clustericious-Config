@@ -180,7 +180,7 @@ sub new {
 
         @conf_dirs = $ENV{CLUSTERICIOUS_CONF_DIR} if defined( $ENV{CLUSTERICIOUS_CONF_DIR} );
 
-        push @conf_dirs, ( $ENV{HOME}, "$ENV{HOME}/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module;
+        push @conf_dirs, ( "$ENV{HOME}/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module;
         my $conf_file = "$arg.conf";
         my ($dir) = first { -e "$_/$conf_file" } @conf_dirs;
         if ($dir) {

@@ -202,6 +202,7 @@ sub new {
             $conf_data = {};
         }
     }
+    $conf_data ||= {};
     Clustericious::Config::Plugin->do_merges($conf_data);
     # Use derived classes so that AUTOLOADING keeps namespaces separate
     # for various apps.

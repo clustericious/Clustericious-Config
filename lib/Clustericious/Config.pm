@@ -158,6 +158,7 @@ sub new {
     my $mt = Mojo::Template->new(namespace => 'Clustericious::Config::Plugin')->auto_escape(0);
     $mt->prepend( join "\n", map " my \$$_ = q{$t_args{$_}};", sort keys %t_args );
 
+    my $filename;
     if (ref $arg eq 'SCALAR') {
         my $rendered = $mt->render($$arg);
         die $rendered if ( (ref($rendered)) =~ /Exception/ );
@@ -185,6 +186,7 @@ sub new {
         my ($dir) = first { -e "$_/$conf_file" } @conf_dirs;
         if ($dir) {
             TRACE "reading from config file $dir/$conf_file";
+            $filename = "$dir/$conf_file";
             my $rendered = $mt->render_file("$dir/$conf_file");
             die $rendered if ( (ref $rendered) =~ /Exception/ );
             my $type = $rendered =~ /^---/ ? 'yaml' : 'json';
@@ -204,6 +206,7 @@ sub new {
     }
     $conf_data ||= {};
     Clustericious::Config::Plugin->do_merges($conf_data);
+    _add_heuristics($filename,$conf_data);
     # Use derived classes so that AUTOLOADING keeps namespaces separate
     # for various apps.
     if ($class eq __PACKAGE__) {
@@ -217,6 +220,18 @@ sub new {
         die "error setting ISA : $@" if $@;
     }
     bless $conf_data, $class;
+}
+
+sub _add_heuristics {
+    my $filename = shift;
+    # Account for some mojo api changes
+    my $conf_data = shift;
+    if ($conf_data->{hypnotoad} && !ref($conf_data->{hypnotoad}{listen})) {
+        warn "# hypnotoad->listen should be an arrayref in $filename\n";
+        $conf_data->{hypnotoad}{listen} = [ $conf_data->{hypnotoad}{listen} ];
+    }
+
+
 }
 
 sub dump_as_yaml {

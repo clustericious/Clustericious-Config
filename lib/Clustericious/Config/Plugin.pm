@@ -63,6 +63,8 @@ sub get_password {
     return Clustericious::Config::Password->sentinel;
 }
 
+=back
+
 =head1 SEE ALSO
 
 L<Clustericious::Config>

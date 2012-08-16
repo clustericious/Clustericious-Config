@@ -19,7 +19,7 @@ our @mergeStack;
 
 =item extends_config
 
-Extend the config using another config file.  See L<Clustericious::Config>.
+Extend the config using another config file.
 
 =cut
 
@@ -63,5 +63,10 @@ sub get_password {
     return Clustericious::Config::Password->sentinel;
 }
 
+=head1 SEE ALSO
+
+L<Clustericious::Config>
+
+=cut
 
 1;

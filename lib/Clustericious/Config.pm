@@ -1,47 +1,29 @@
 =head1 NAME
 
-Clustericious::Config - configuration files for clustericious nodes.
+Clustericious::Config - configuration files for Clustericious nodes.
 
 =head1 SYNOPSIS
 
- $ cat > ~/MyApp.conf
+ $ cat > ~/etc/MyApp.conf
+ ---
  % extends_config 'global';
- % extends_config 'common', url => 'http://localhost:9999', app => 'MyApp';
+ % extends_config 'hypnotoad', url => 'http://localhost:9999', app => 'MyApp';
 
- {
-    "start_mode" : "daemon_prefork",
-    "daemon_prefork" : {
-        maxspare : 3,
-    }
- }
+ url : http://localhost:9999
+ start_mode : hypnotoad
+ hypnotoad :
+    - heartbeat_timeout : 500
 
  $ cat > ~/global.conf
- {
-    "some_var" : "some_value"
- }
+ ---
+ somevar : somevalue
 
- $ cat > ~/common.conf
- {
-    "url" : "<%= $url %>",
-    "daemon_prefork" : {
-       "listen"   : "<%= $url %>",
-       "pid"      : "/tmp/<%= $app %>.pid",
-       "lock"     : "/tmp/<%= $app %>.lock",
-       "maxspare" : 2,
-       "start"    : 2
-    }
- }
-
-OR as YAML :
-
- url : <%= $url %>,
- daemon_prefork : {
-      listen   : <%= $url %>,
-      pid      : /tmp/<%= $app %>.pid,
-      lock     : /tmp/<%= $app %>.lock,
-      maxspare : 2,
-      start    : 2
-  }
+ $ cat > ~/hypnotoad.conf
+ listen :
+    - <%= $url %>
+ pid_file : <%= $ENV{HOME} %>/<%= $app %>/hypnotoad.pid
+ env :
+    MOJO_HOME : <%= $ENV{HOME} %>/<%= $app %>
 
 Then later in a program somewhere :
 
@@ -52,13 +34,13 @@ Then later in a program somewhere :
  print $c->url;
  print $c->{url};
 
- print $c->daemon_prefork->listen;
- print $c->daemon_prefork->{listen};
- my %hash = $c->daemon_prefork;
- my @ary  = $c->daemon_prefork;
+ print $c->hypnotoad->listen;
+ print $c->hypnotoad->{listen};
+ my %hash = $c->hypnotoad;
+ my @ary  = $c->hypnotoad;
 
  # Supply a default value for a missing configuration parameter :
- $c->url(default => "http://example.com");
+ $c->url(default => "http://localhost:9999");
  print $c->this_param_is_missing(default => "something_else");
 
  # Dump out the entire config as yaml
@@ -66,7 +48,10 @@ Then later in a program somewhere :
 
 =head1 DESCRIPTION
 
-Read config files which are Mojo::Template's of JSON or YAML files.
+Clustericious::Config reads configuration files which are Mojo::Template's
+of JSON or YAML files.  There should generally be an entry for
+'url', which may be used by either a client or a server depending on
+how this node in the cluster is being used.
 
 After rendering the template and parsing the JSON, the resulting
 object may be called using method calls or treated as hashes.
@@ -75,38 +60,30 @@ Config files are looked for in the following places (in order, where
 "MyApp" is the name of the app) :
 
     $ENV{CLUSTERICIOUS_CONF_DIR}/MyApp.conf
-    ~/MyApp.conf
     ~/etc/MyApp.conf
     /util/etc/MyApp.conf
     /etc/MyApp.conf
 
-If the environment variable HARNESS_ACTIVE is set,
-and the current module::build object tells us that
-the calling module is being tested, then an empty
-configuration is used.  In this situation, however,
-if $ENV{CLUSTERICIOUS_CONF_DIR} is set and if it
-is a subdirectory of the current directory, then
-it will be used.  This allows unit tests to provide
-configuration directories, but avoids using configurations
-that are outside of the build tree during unit testing.
-
 The helper "extends_config" may be used to read default settings
 from another config file.  The first argument to extends_config is the
 basename of the config file.  Additional named arguments may be passed
-to that config file and used as variables within that file.
+to that config file and used as variables within that file.  After
+reading another file, the hashes are merged (i.e. with Hash::Merge);
+so values anywhere inside the datastructure may be overridden.
 
-If a config file begins with "---", it will be parsed as YAML
-instead of JSON.
+YAML config files must begin with "---", otherwise they are interpreted
+as JSON.
 
-Putting passwords into config files is a bad idea, so Clustericious::Config
-provides a "get_password" function which will prompt for a password
-if it is needed.  Use it like this, in the config file :
+Clustericious::Config provides a "get_password" function which will prompt
+for a password if it is needed.  It can be used like this :
 
  password : <%= get_password =%>
 
-=head1 SEE ALSO
+This will prompt the user the first time it is encountered.
 
-Mojo::Template
+=head1 METHODS
+
+=over
 
 =cut
 
@@ -138,6 +115,13 @@ sub _is_subdir {
     my $c = abs_path($child);
     return ($c =~ m[^\Q$p\E]) ? 1 : 0;
 }
+
+=item new
+
+Create a new Clustericious::Config object.  See the SYPNOSIS for
+possible invocations.
+
+=cut
 
 sub new {
     my $class = shift;
@@ -300,6 +284,30 @@ sub set_singleton {
     our %Singletons;
     $Singletons{$app} = $obj;
 }
+
+=back
+
+=head1 ENVIRONMENT
+
+If the environment variable HARNESS_ACTIVE is set,
+and the current module::build object tells us that
+the calling module is being tested, then an empty
+configuration is used.  In this situation, however,
+if $ENV{CLUSTERICIOUS_CONF_DIR} is set and if it
+is a subdirectory of the current directory, then
+it will be used.  This allows unit tests to provide
+configuration directories, but avoids using configurations
+that are outside of the build tree during unit testing.
+
+=head1 NOTES
+
+This is a beta release. The API may change without notice.
+
+=head1 SEE ALSO
+
+L<Mojo::Template>, L<Hash::Merge>, L<Clustericious>, L<Clustericious::Client>
+
+=cut
 
 1;
 

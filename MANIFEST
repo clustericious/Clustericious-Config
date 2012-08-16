@@ -1,4 +1,5 @@
 Build.PL
+Changes
 etc/common.conf.sample
 etc/log4perl.conf.sample
 etc/MyApp.conf.sample
@@ -12,4 +13,6 @@ META.yml
 README
 t/config.t
 t/config_multi.t
+t/pod.t
 t/yaml.t
+META.json

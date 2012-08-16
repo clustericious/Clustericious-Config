@@ -12,8 +12,9 @@ build_requires:
   Test::More: 0
   YAML::XS: 0
 configure_requires:
-  Module::Build: 0.36
-generated_by: 'Module::Build version 0.3603'
+  Module::Build: 0.4
+dynamic_config: 1
+generated_by: 'Module::Build version 0.4, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -22,11 +23,13 @@ name: Clustericious-Config
 provides:
   Clustericious::Config:
     file: lib/Clustericious/Config.pm
-    version: 0.09
+    version: 0.10
   Clustericious::Config::Password:
     file: lib/Clustericious/Config/Password.pm
+    version: 0
   Clustericious::Config::Plugin:
     file: lib/Clustericious/Config/Plugin.pm
+    version: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.09
+version: 0.10

@@ -59,8 +59,8 @@ object may be called using method calls or treated as hashes.
 Config files are looked for in the following places (in order, where
 "MyApp" is the name of the app) :
 
-    $ENV{CLUSTERICIOUS_CONF_DIR}/MyApp.conf
-    ~/etc/MyApp.conf
+    $CLUSTERICIOUS_CONF_DIR/MyApp.conf
+    $HOME/etc/MyApp.conf
     /util/etc/MyApp.conf
     /etc/MyApp.conf
 

@@ -94,7 +94,7 @@ use Clustericious::Config::Password;
 use strict;
 use warnings;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 use List::Util qw/first/;
 use JSON::XS;

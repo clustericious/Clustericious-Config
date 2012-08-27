@@ -300,6 +300,12 @@ it will be used.  This allows unit tests to provide
 configuration directories, but avoids using configurations
 that are outside of the build tree during unit testing.
 
+=head1 AUTHORS
+
+Brian Duggan
+
+Graham Ollis
+
 =head1 NOTES
 
 This is a beta release. The API may change without notice.

@@ -5,7 +5,7 @@ use strict;
 
 use overload '""' => \&freeze;
 
-my $magic_num = 'xxx_confvar';
+my $magic_num = 'xxx_confvar:';
 
 sub new {
     bless { _want => [] }, shift;

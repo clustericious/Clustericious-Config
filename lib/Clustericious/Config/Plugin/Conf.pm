@@ -40,6 +40,9 @@ sub eval {
     my $config = shift;
     my $got = $config;
     while (my $want = pop @{ $self->{_want} }) {
+        while (!exists($got->{$want}) && $got->{_parent}) {
+            $got = $got->{_parent};
+        }
         $got = $got->$want;
     }
     return $got;

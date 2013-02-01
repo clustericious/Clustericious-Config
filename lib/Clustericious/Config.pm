@@ -105,6 +105,7 @@ use Log::Log4perl qw/:easy/;
 use Storable qw/dclone/;
 use Clustericious::Config::Plugin;
 use Data::Dumper;
+use Data::Rmap qw/rmap/;
 use Cwd qw/getcwd abs_path/;
 use Module::Build;
 use File::HomeDir;
@@ -260,6 +261,7 @@ sub AUTOLOAD {
     my $invocant = ref $self;
     if (ref $value eq 'HASH') {
         $obj = $invocant->new($value);
+        $obj->{_parent} = $self;
     }
     no strict 'refs';
     *{ $invocant . "::$called" } = sub {
@@ -268,15 +270,13 @@ sub AUTOLOAD {
           die "'$called' not found in ".join ',',keys(%$self)
               unless exists($self->{$called});
           my $value = $self->{$called};
-          if (ref $value eq 'ARRAY') {
-              @$value = map $self->_maybe_unfreeze($_), @$value;
-          }
-          if (ref $value eq 'HASH') {
-              $value->{$_} = $self->_maybe_unfreeze($value->{$_}) for keys %$value;
+          my $x = ref $value;
+          if ( (ref $value) =~ /^(ARRAY|HASH)$/) {
+            rmap { $_ = $self->_maybe_unfreeze($_) } $value;
           }
           return wantarray && (ref $value eq 'HASH' ) ? %$value
-          : wantarray && (ref $value eq 'ARRAY') ? @$value
-          :                       defined($obj)  ? $obj
+               : wantarray && (ref $value eq 'ARRAY') ? @$value
+               :                       defined($obj)  ? $obj
           : Clustericious::Config::Password->is_sentinel($value) ? Clustericious::Config::Password->get
           : $self->_maybe_unfreeze($value);
     };

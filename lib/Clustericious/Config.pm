@@ -206,7 +206,9 @@ sub new {
         eval $dome;
         die "error setting ISA : $@" if $@;
     }
-    bless $conf_data, $class;
+    my $self = bless $conf_data, $class;
+    rmap { $_ = $self->_maybe_unfreeze($_) } $conf_data;
+    return $self;
 }
 
 sub _add_heuristics {

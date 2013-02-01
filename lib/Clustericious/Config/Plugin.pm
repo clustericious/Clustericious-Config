@@ -21,13 +21,18 @@ our @mergeStack;
 
 =item conf
 
-Returns the current configuration object.
+Returns a mini configuration object which can be
+used to set values to be the same as keys elsewhere
+in the configuration.
 
 example :
 
  ---
  foo : bar
  alsofoo : <%= conf->foo %>
+ one :
+   two : three
+ another : <%= conf->one->two %>
 
 =cut
 

@@ -96,7 +96,8 @@ use warnings;
 
 our $VERSION = '0.12';
 
-use List::Util qw/first/;
+use List::Util;
+use Scalar::Util;
 use JSON::XS;
 use YAML::XS qw/Load Dump/;
 use Mojo::Template;
@@ -168,7 +169,7 @@ sub new {
 
         push @conf_dirs, ( File::HomeDir->my_home . "/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module;
         my $conf_file = "$arg.conf";
-        my ($dir) = first { -e "$_/$conf_file" } @conf_dirs;
+        my ($dir) = List::Util::first { -e "$_/$conf_file" } @conf_dirs;
         if ($dir) {
             TRACE "reading from config file $dir/$conf_file";
             $filename = "$dir/$conf_file";
@@ -260,9 +261,11 @@ sub AUTOLOAD {
           die "'$called' not found in ".join ',',keys(%$self)
               unless exists($self->{$called});
           my $value = $self->{$called};
+
           return wantarray && (ref $value eq 'HASH' ) ? %$value
           : wantarray && (ref $value eq 'ARRAY') ? @$value
           :                       defined($obj)  ? $obj
+          : ($a = Clustericious::Config::Plugin::Conf->unfreeze($value)) ? $a->eval($self)
           : Clustericious::Config::Password->is_sentinel($value) ? Clustericious::Config::Password->get
           :                                        $value;
     };

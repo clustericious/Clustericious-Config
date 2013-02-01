@@ -12,10 +12,28 @@ package Clustericious::Config::Plugin;
 
 use Hash::Merge qw/merge/;
 use Data::Dumper;
+use Clustericious::Config::Plugin::Conf;
+
 use strict;
 use warnings;
 
 our @mergeStack;
+
+=item conf
+
+Returns the current configuration object.
+
+example :
+
+ ---
+ foo : bar
+ alsofoo : <%= conf->foo %>
+
+=cut
+
+sub conf {
+    return Clustericious::Config::Plugin::Conf->new();
+}
 
 =item extends_config
 

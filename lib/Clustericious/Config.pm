@@ -272,15 +272,11 @@ sub AUTOLOAD {
           die "'$called' not found in ".join ',',keys(%$self)
               unless exists($self->{$called});
           my $value = $self->{$called};
-          my $x = ref $value;
-          if ( (ref $value) =~ /^(ARRAY|HASH)$/) {
-            rmap { $_ = $self->_maybe_unfreeze($_) } $value;
-          }
           return wantarray && (ref $value eq 'HASH' ) ? %$value
                : wantarray && (ref $value eq 'ARRAY') ? @$value
                :                       defined($obj)  ? $obj
           : Clustericious::Config::Password->is_sentinel($value) ? Clustericious::Config::Password->get
-          : $self->_maybe_unfreeze($value);
+          : $value;
     };
     use strict 'refs';
     $self->$called;

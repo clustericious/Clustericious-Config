@@ -233,6 +233,13 @@ sub _stringify {
 sub DESTROY {
 }
 
+sub _maybe_unfreeze {
+    my $self = shift;
+    my $value = shift;
+    my $frozen = Clustericious::Config::Plugin::Conf->unfreeze($value) or return $value;
+    return $frozen->eval($self);
+}
+
 sub AUTOLOAD {
     my $self = shift;
     my %args = @_;
@@ -261,13 +268,17 @@ sub AUTOLOAD {
           die "'$called' not found in ".join ',',keys(%$self)
               unless exists($self->{$called});
           my $value = $self->{$called};
-
+          if (ref $value eq 'ARRAY') {
+              @$value = map $self->_maybe_unfreeze($_), @$value;
+          }
+          if (ref $value eq 'HASH') {
+              $value->{$_} = $self->_maybe_unfreeze($value->{$_}) for keys %$value;
+          }
           return wantarray && (ref $value eq 'HASH' ) ? %$value
           : wantarray && (ref $value eq 'ARRAY') ? @$value
           :                       defined($obj)  ? $obj
-          : ($a = Clustericious::Config::Plugin::Conf->unfreeze($value)) ? $a->eval($self)
           : Clustericious::Config::Password->is_sentinel($value) ? Clustericious::Config::Password->get
-          :                                        $value;
+          : $self->_maybe_unfreeze($value);
     };
     use strict 'refs';
     $self->$called;

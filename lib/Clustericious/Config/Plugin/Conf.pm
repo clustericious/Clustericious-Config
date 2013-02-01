@@ -5,7 +5,7 @@ use strict;
 
 use overload '""' => \&freeze;
 
-my $magic_num = 'xxx_confvar:';
+my $magic_num = 'xxx_confvar_';
 
 sub new {
     bless { _want => [] }, shift;
@@ -19,6 +19,7 @@ sub freeze {
 sub unfreeze {
     my $class = shift;
     my $str = shift;
+    return undef unless defined($str);
     return unless $str =~ s/^$magic_num//;
     my $new = $class->new();
     $new->{_want} = [ reverse split /\./, $str ];

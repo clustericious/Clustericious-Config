@@ -96,8 +96,7 @@ use warnings;
 
 our $VERSION = '0.12';
 
-use List::Util;
-use Scalar::Util;
+use List::Util qw/first/;
 use JSON::XS;
 use YAML::XS qw/Load Dump/;
 use Mojo::Template;
@@ -105,7 +104,6 @@ use Log::Log4perl qw/:easy/;
 use Storable qw/dclone/;
 use Clustericious::Config::Plugin;
 use Data::Dumper;
-use Data::Rmap qw/rmap/;
 use Cwd qw/getcwd abs_path/;
 use Module::Build;
 use File::HomeDir;
@@ -170,7 +168,7 @@ sub new {
 
         push @conf_dirs, ( File::HomeDir->my_home . "/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module;
         my $conf_file = "$arg.conf";
-        my ($dir) = List::Util::first { -e "$_/$conf_file" } @conf_dirs;
+        my ($dir) = first { -e "$_/$conf_file" } @conf_dirs;
         if ($dir) {
             TRACE "reading from config file $dir/$conf_file";
             $filename = "$dir/$conf_file";
@@ -206,9 +204,7 @@ sub new {
         eval $dome;
         die "error setting ISA : $@" if $@;
     }
-    my $self = bless $conf_data, $class;
-    rmap { $_ = $self->_maybe_unfreeze($_) } $conf_data;
-    return $self;
+    bless $conf_data, $class;
 }
 
 sub _add_heuristics {
@@ -236,13 +232,6 @@ sub _stringify {
 sub DESTROY {
 }
 
-sub _maybe_unfreeze {
-    my $self = shift;
-    my $value = shift;
-    my $frozen = Clustericious::Config::Plugin::Conf->unfreeze($value) or return $value;
-    return $frozen->eval($self);
-}
-
 sub AUTOLOAD {
     my $self = shift;
     my %args = @_;
@@ -263,7 +252,6 @@ sub AUTOLOAD {
     my $invocant = ref $self;
     if (ref $value eq 'HASH') {
         $obj = $invocant->new($value);
-        $obj->{_parent} = $self;
     }
     no strict 'refs';
     *{ $invocant . "::$called" } = sub {
@@ -273,10 +261,10 @@ sub AUTOLOAD {
               unless exists($self->{$called});
           my $value = $self->{$called};
           return wantarray && (ref $value eq 'HASH' ) ? %$value
-               : wantarray && (ref $value eq 'ARRAY') ? @$value
-               :                       defined($obj)  ? $obj
+          : wantarray && (ref $value eq 'ARRAY') ? @$value
+          :                       defined($obj)  ? $obj
           : Clustericious::Config::Password->is_sentinel($value) ? Clustericious::Config::Password->get
-          : $value;
+          :                                        $value;
     };
     use strict 'refs';
     $self->$called;

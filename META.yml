@@ -29,13 +29,16 @@ no_index:
 provides:
   Clustericious::Config:
     file: lib/Clustericious/Config.pm
-    version: 0.12
+    version: 0.14
   Clustericious::Config::Password:
     file: lib/Clustericious/Config/Password.pm
-    version: 0
+    version: 0.14
   Clustericious::Config::Plugin:
     file: lib/Clustericious/Config/Plugin.pm
-    version: 0
+    version: 0.14
+  Clustericious::Config::Plugin::Conf:
+    file: lib/Clustericious/Config/Plugin/Conf.pm
+    version: 0.14
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.12
+version: 0.14

@@ -95,7 +95,7 @@ use strict;
 use warnings;
 use v5.10;
 
-our $VERSION = '0.12';
+our $VERSION = '0.14';
 
 use List::Util;
 use Scalar::Util;

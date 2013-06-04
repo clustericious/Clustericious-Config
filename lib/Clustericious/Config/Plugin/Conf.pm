@@ -5,7 +5,7 @@ use strict;
 
 use overload '""' => \&freeze;
 
-our $VERSION = '0.12';
+our $VERSION = '0.14';
 
 my $magic_num = 'xxx_confvar_';
 

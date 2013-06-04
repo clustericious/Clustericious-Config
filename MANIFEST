@@ -17,4 +17,5 @@ t/config_multi.t
 t/pod.t
 t/yaml.t
 t/helpers.t
+t/namespace.t
 dist.ini

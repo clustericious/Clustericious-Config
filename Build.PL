@@ -21,6 +21,7 @@ my $builder = Module::Build->new(
         'Log::Log4perl'        => 0,
         'File::HomeDir'        => 0,
         'Data::Rmap'           => 0,
+        'File::HomeDir'        => 0,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
     meta_add => { no_index => { directory => [ 'share', 'util' ], } },

@@ -23,6 +23,7 @@ my $builder = Module::Build->new(
         'Data::Rmap'           => 0,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
+    meta_add => { no_index => { directory => [ 'share', 'util' ], } },
 );
 
 $builder->create_build_script();

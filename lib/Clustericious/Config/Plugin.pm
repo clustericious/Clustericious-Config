@@ -17,6 +17,7 @@ use Clustericious::Config::Plugin::Conf;
 use strict;
 use warnings;
 
+our $VERSION = '0.12';
 our @mergeStack;
 
 =item conf

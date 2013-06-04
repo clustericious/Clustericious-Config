@@ -4,7 +4,7 @@
       "Brian Duggan <brian.duggan@nasa.gov>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -13,9 +13,16 @@
       "version" : "2"
    },
    "name" : "Clustericious-Config",
+   "no_index" : {
+      "directory" : [
+         "share",
+         "util"
+      ]
+   },
    "prereqs" : {
       "build" : {
          "requires" : {
+            "Data::Rmap" : "0",
             "File::HomeDir" : "0",
             "Hash::Merge" : "0",
             "JSON::XS" : "0",
@@ -29,7 +36,7 @@
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.4"
+            "Module::Build" : "0.40"
          }
       }
    },

@@ -23,7 +23,6 @@ my $builder = Module::Build->new(
         'Data::Rmap'           => 0,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
-    create_makefile_pl => 'traditional',
 );
 
 $builder->create_build_script();

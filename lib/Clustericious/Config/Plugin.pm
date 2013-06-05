@@ -14,8 +14,11 @@ use Hash::Merge qw/merge/;
 use Data::Dumper;
 use strict;
 use warnings;
+use base qw( Exporter );
 
+our $VERSION = '0.14';
 our @mergeStack;
+our @EXPORT = qw( extends_config get_password conf );
 
 =item extends_config
 

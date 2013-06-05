@@ -1,5 +1,10 @@
 Revision history for Clustericious-Config
 
+        Added back changes from 0.13 that got reverted in 0.14
+
+0.14    Tue Jun  4 07:56:15 EDT 2013
+        Run template in different package
+
 0.13    Sat Jun  1 13:23:55 EDT 2013
         fixed autoload conflicts, home, dclone, etc.
 
@@ -11,6 +16,5 @@ Revision history for Clustericious-Config
 
 0.10    Thu Aug 16 11:49:10 EDT 2012
         first release
-
 
 

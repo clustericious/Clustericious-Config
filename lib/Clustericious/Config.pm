@@ -93,8 +93,9 @@ use Clustericious::Config::Password;
 
 use strict;
 use warnings;
+use v5.10;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 use List::Util;
 use JSON::XS;
@@ -140,7 +141,14 @@ sub new {
     my $conf_data;
 
     my $json = JSON::XS->new;
-    my $mt = Mojo::Template->new(namespace => 'Clustericious::Config::Plugin')->auto_escape(0);
+    
+    state $package_counter = 0;
+    my $namespace = "Clustericious::Config::Package$package_counter";
+    eval qq{ package $namespace; use Clustericious::Config::Plugin; };
+    die $@ if $@;
+    $package_counter++;
+    
+    my $mt = Mojo::Template->new(namespace => $namespace)->auto_escape(0);
     $mt->prepend( join "\n", map " my \$$_ = q{$t_args{$_}};", sort keys %t_args );
 
     my $filename;

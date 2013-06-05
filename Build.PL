@@ -22,7 +22,7 @@ my $builder = Module::Build->new(
         'File::HomeDir'        => 0,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
-    create_makefile_pl => 'traditional',
+    meta_add => { no_index => { directory => [ 'share', 'util' ], } },
 );
 
 $builder->create_build_script();

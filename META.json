@@ -42,15 +42,15 @@
    "provides" : {
       "Clustericious::Config" : {
          "file" : "lib/Clustericious/Config.pm",
-         "version" : "0.14"
+         "version" : "0.15"
       },
       "Clustericious::Config::Password" : {
          "file" : "lib/Clustericious/Config/Password.pm",
-         "version" : "0.14"
+         "version" : "0.15"
       },
       "Clustericious::Config::Plugin" : {
          "file" : "lib/Clustericious/Config/Plugin.pm",
-         "version" : "0.14"
+         "version" : "0.15"
       }
    },
    "release_status" : "stable",
@@ -66,5 +66,5 @@
          "url" : "git://github.com/plicease/Clustericious-Config.git"
       }
    },
-   "version" : "0.14"
+   "version" : "0.15"
 }

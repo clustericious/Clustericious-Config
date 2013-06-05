@@ -11,12 +11,13 @@ build_requires:
   Module::Build: 0.36
   Mojolicious: 1.01
   Term::Prompt: 0
+  Test::Differences: 0
   Test::More: 0
   YAML::XS: 0
 configure_requires:
   Module::Build: 0.40
 dynamic_config: 1
-generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Module::Build version 0.4002, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html

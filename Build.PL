@@ -10,6 +10,7 @@ my $builder = Module::Build->new(
     dist_author         => q{Brian Duggan <brian.duggan@nasa.gov>},
     dist_version_from   => 'lib/Clustericious/Config.pm',
     dist_abstract       => 'Configuration for clustericious clients or servers',
+    configure_requires => { 'Module::Build' => 0.36 },
     build_requires => {
         'Module::Build'        => '0.36',
         'Test::More'           => 0,
@@ -22,16 +23,12 @@ my $builder = Module::Build->new(
         'File::HomeDir'        => 0,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
-    meta_add => {
-        no_index => { directory => [ 'share', 'util' ], }
+    meta_merge => {
+        no_index => { directory => [ 'share', 'util' ], },
         resources => {
-            bugtracker => { web => https://github.com/plicease/Clustericious-Config/issues },
+            bugtracker => 'https://github.com/plicease/Clustericious-Config/issues',
             homepage   => "http://search.cpan.org/dist/Clustericious-Config/",
-            repository => {
-                type => 'git',
-                url  => 'git://github.com/plicease/Clustericious-Config.git',
-                web  => 'https://github.com/plicease/Clustericious-Config',
-            }
+            repository => 'git://github.com/plicease/Clustericious-Config.git',
         }
     }
 );

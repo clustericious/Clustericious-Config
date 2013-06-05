@@ -22,7 +22,18 @@ my $builder = Module::Build->new(
         'File::HomeDir'        => 0,
       },
     add_to_cleanup      => [ 'Clustericious-Config-*' ],
-    meta_add => { no_index => { directory => [ 'share', 'util' ], } },
+    meta_add => {
+        no_index => { directory => [ 'share', 'util' ], }
+        resources => {
+            bugtracker => { web => https://github.com/plicease/Clustericious-Config/issues },
+            homepage   => "http://search.cpan.org/dist/Clustericious-Config/",
+            repository => {
+                type => 'git',
+                url  => 'git://github.com/plicease/Clustericious-Config.git',
+                web  => 'https://github.com/plicease/Clustericious-Config',
+            }
+        }
+    }
 );
 
 $builder->create_build_script();

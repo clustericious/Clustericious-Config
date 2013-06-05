@@ -2,6 +2,12 @@ language: perl
 
 install:
   - cpanm -n Mojolicious
+  - cpanm -n JSON::XS
+  - cpanm -n YAML::XS
+  - cpanm -n Hash::Merge
+  - cpanm -n Term::Prompt
+  - cpanm -n Log::Log4perl
+  - cpanm -n File::HomeDir
 
 script: HARNESS_IS_VERBOSE=1 YC_LIVE_TESTS=1 prove -lv t
 

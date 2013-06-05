@@ -58,7 +58,7 @@
       "bugtracker" : {
          "web" : "https://github.com/plicease/Clustericious-Config/issues"
       },
-      "homepage" : "http://search.cpan.org/dist/Clustericious-Config/",
+      "homepage" : "http://perl.wdlabs.com/Clustericious-Config",
       "license" : [
          "http://dev.perl.org/licenses/"
       ],

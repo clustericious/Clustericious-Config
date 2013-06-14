@@ -116,6 +116,14 @@ sub _is_subdir {
     return ($c =~ m[^\Q$p\E]) ? 1 : 0;
 }
 
+my $is_test = 0;
+sub _testing
+{
+  my($class, $new) = @_;
+  $is_test = $new if defined $new;
+  $is_test;
+}
+
 =head2 new
 
 Create a new Clustericious::Config object.  See the SYPNOSIS for
@@ -130,8 +138,11 @@ sub new {
     ($arg = caller) =~ s/:.*$// unless $arg; # Determine from caller's class
     return $Singletons{$arg} if exists($Singletons{$arg});
 
+    
     my $we_are_testing_this_module = 0;
-    if ($ENV{HARNESS_ACTIVE} and -d '_build' && -e '_build/build_params' && Module::Build->can("current")) {
+    if(__PACKAGE__->_testing) {
+        $we_are_testing_this_module = 0;
+    } elsif ($ENV{HARNESS_ACTIVE} and -d '_build' && -e '_build/build_params' && Module::Build->can("current")) {
         my $mb = Module::Build->current;
         $we_are_testing_this_module = $mb && $mb->module_name eq $arg;
     }
@@ -172,7 +183,7 @@ sub new {
 
         @conf_dirs = $ENV{CLUSTERICIOUS_CONF_DIR} if defined( $ENV{CLUSTERICIOUS_CONF_DIR} );
 
-        push @conf_dirs, ( File::HomeDir->my_home . "/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module;
+        push @conf_dirs, ( File::HomeDir->my_home . "/etc", "/util/etc", "/etc" ) unless $we_are_testing_this_module || __PACKAGE__->_testing;
         my $conf_file = "$arg.conf";
         my ($dir) = List::Util::first { -e "$_/$conf_file" } @conf_dirs;
         if ($dir) {

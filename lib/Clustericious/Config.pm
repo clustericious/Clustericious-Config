@@ -93,7 +93,7 @@ use strict;
 use warnings;
 use v5.10;
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 use List::Util;
 use JSON::XS;

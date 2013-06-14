@@ -102,6 +102,9 @@ sub create_config_ok
   
   $test_name //= "create config for $config_name at $config_filename";
   
+  # remove any cached copy if necessary
+  delete $Clustericious::Config::Singletons{$config_name};
+  
   my $tb = __PACKAGE__->builder;  
   $tb->ok($error eq '', $test_name);
   $tb->diag("exception: $error") if $error;

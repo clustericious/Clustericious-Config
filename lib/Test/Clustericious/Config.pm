@@ -35,8 +35,25 @@ Test::Clustericious::Config - Test Clustericious::Config
 =head1 SYNOPSIS
 
  use Test::Clustericious::Config;
+ use Clustericious::Config;
+ use Test::More tets => 2;
  
  create_config_ok 'Foo', { url => 'http://localhost:1234' };
+ my $config = Clustericious::Config->new('Foo');
+ is $config->url, "http://localhost:1234";
+
+To test against a Clustericious application MyApp:
+
+ use Test::Clustericious::Config;
+ use Test::Clustericious;
+ use Test::More tests => 3;
+
+ create_config_ok 'MyApp', { x => 1, y => 2 }; 
+ my $t = Test::Clustericious->new('MyApp');
+ 
+ $t->get_ok('/');
+ 
+ is $t->app->config->x, 1;
 
 =head1 DESCRIPTION
 

@@ -55,6 +55,23 @@ To test against a Clustericious application MyApp:
  
  is $t->app->config->x, 1;
 
+To test against multiple Clustericious applications MyApp1, MyApp2
+(can also be the same app with different config):
+
+ use Test::Clustericious::Config;
+ use Test::Clustericious;
+ use Test::More tests => 4;
+ 
+ create_config_ok 'MyApp1', {};
+ my $t1 = Test::Clustericious->new('MyApp1');
+ 
+ $t1->get_ok('/');
+ 
+ create_config_ok 'MyApp2', { my_app1_url => $t1->app_url };
+ my $t2 = Test::Clustericious->new('MyApp2');
+ 
+ $t2->get_ok('/');
+
 =head1 DESCRIPTION
 
 This module provides an interface for testing Clustericious

@@ -117,11 +117,18 @@ sub _is_subdir {
 }
 
 my $is_test = 0;
-sub _testing
-{
+sub _testing {
   my($class, $new) = @_;
   $is_test = $new if defined $new;
   $is_test;
+}
+
+our $class_suffix = {};
+sub _uncache {
+    my($class, $name) = @_;
+    delete $Clustericious::Config::Singletons{$name};
+    $class_suffix->{$name} //= 1;
+    $class_suffix->{$name}++;
 }
 
 =head2 new
@@ -217,6 +224,7 @@ sub new {
             $arg =~ tr/a-zA-Z0-9//cd;
         }
         $class = join '::', $class, $arg;
+        $class .= $class_suffix->{$arg} if $class_suffix->{$arg};
         my $dome = '@'."$class"."::ISA = ('".__PACKAGE__. "')";
         eval $dome;
         die "error setting ISA : $@" if $@;

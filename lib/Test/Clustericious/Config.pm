@@ -15,11 +15,18 @@ our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok );
 our @EXPORT_OK = @EXPORT;
 our $VERSION = '0.16';
 
-my $config_dir = File::HomeDir->my_home . "/etc";
-mkdir $config_dir;
+my $config_dir;
 
-$ENV{CLUSTERICIOUS_CONF_DIR} = $config_dir;
-Clustericious::Config->_testing(1);
+sub _init
+{
+  $config_dir = File::HomeDir->my_home . "/etc";
+  mkdir $config_dir;
+
+  $ENV{CLUSTERICIOUS_CONF_DIR} = $config_dir;
+  Clustericious::Config->_testing(1);
+}
+
+BEGIN { _init() }
 
 =head1 NAME
 
@@ -103,7 +110,7 @@ sub create_config_ok
   $test_name //= "create config for $config_name at $config_filename";
   
   # remove any cached copy if necessary
-  delete $Clustericious::Config::Singletons{$config_name};
+  Clustericious::Config->_uncache($config_name);
   
   my $tb = __PACKAGE__->builder;  
   $tb->ok($error eq '', $test_name);

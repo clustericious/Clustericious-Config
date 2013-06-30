@@ -131,6 +131,9 @@ sub _uncache {
     $class_suffix->{$name}++;
 }
 
+sub pre_rendered { }
+sub rendered { }
+
 =head2 new
 
 Create a new Clustericious::Config object.  See the SYPNOSIS for
@@ -169,7 +172,9 @@ sub new {
 
     my $filename;
     if (ref $arg eq 'SCALAR') {
+        $class->pre_rendered( $$arg );
         my $rendered = $mt->render($$arg);
+        $class->rendered( SCALAR => $rendered );
         die $rendered if ( (ref($rendered)) =~ /Exception/ );
         my $type = $rendered =~ /^---/ ? 'yaml' : 'json';
         $conf_data = $type eq 'yaml' ?
@@ -196,7 +201,9 @@ sub new {
         if ($dir) {
             TRACE "reading from config file $dir/$conf_file";
             $filename = "$dir/$conf_file";
-            my $rendered = $mt->render_file("$dir/$conf_file");
+            $class->pre_rendered( $filename );
+            my $rendered = $mt->render_file($filename);
+            $class->rendered( $filename => $rendered );
             die $rendered if ( (ref $rendered) =~ /Exception/ );
             my $type = $rendered =~ /^---/ ? 'yaml' : 'json';
             if ($ENV{CL_CONF_TRACE}) {

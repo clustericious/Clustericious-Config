@@ -3,7 +3,15 @@ package Test::Clustericious::Config;
 use strict;
 use warnings;
 use v5.10;
-use File::HomeDir::Test;
+
+BEGIN {
+  unless($INC{'File/HomeDir/Test.pm'})
+  {
+    eval q{ use File::HomeDir::Test };
+    die $@ if $@;
+  }
+}
+
 use File::HomeDir;
 use YAML::XS qw( DumpFile );
 use File::Path qw( mkpath );
@@ -13,6 +21,7 @@ use base qw( Test::Builder::Module Exporter );
 
 our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok create_config_helper_ok );
 our @EXPORT_OK = @EXPORT;
+our %EXPORT_TAGS = ( all => \@EXPORT );
 our $VERSION = '0.21';
 
 my $config_dir;

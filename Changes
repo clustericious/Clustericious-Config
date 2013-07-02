@@ -1,5 +1,7 @@
 Revision history for Clustericious-Config
 
+        - added create_config_helper_ok to Test::Clustericious::Config
+
 0.20    Wed Jun 26 21:47:02 EDT 2013
         - require File::HomeDir 0.91 (need File::HomeDir::Test)
 

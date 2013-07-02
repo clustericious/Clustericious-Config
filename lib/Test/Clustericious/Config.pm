@@ -11,7 +11,7 @@ use Clustericious::Config;
 
 use base qw( Test::Builder::Module Exporter );
 
-our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok );
+our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok create_config_helper_ok );
 our @EXPORT_OK = @EXPORT;
 our $VERSION = '0.20';
 
@@ -195,6 +195,40 @@ sub home_directory_ok
   my $tb = __PACKAGE__->builder;
   $tb->ok(-d $fullpath, $test_name);
   return $fullpath;
+}
+
+=head2 create_config_helper_ok $helper_name, $helper_coderef, [ $test_name ]
+
+Install a helper which can be called from within a configuration template.
+Example:
+
+ my $counter;
+ create_config_helper_ok 'counter', sub { $counter++ };
+ create_config_ok 'MyApp', <<EOF;
+ ---
+ one: <%= counter %>
+ two: <%= counter %>
+ three: <% counter %>
+ EOF
+
+=cut
+
+sub create_config_helper_ok ($$;$)
+{
+  my($helper_name, $helper_code, $test_name) = @_;
+  
+  $test_name //= "create config helper $helper_name";
+  
+  require Clustericious::Config::Plugin;
+  do {
+    no strict 'refs';
+    *{"Clustericious::Config::Plugin::$helper_name"} = $helper_code;
+  };
+  push @Clustericious::Config::Plugin::EXPORT, $helper_name;
+  
+  my $tb = __PACKAGE__->builder;
+  $tb->ok(1, $test_name);
+  return;
 }
 
 1;

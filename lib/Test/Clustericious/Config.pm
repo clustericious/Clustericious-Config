@@ -16,6 +16,7 @@ use File::HomeDir;
 use YAML::XS qw( DumpFile );
 use File::Path qw( mkpath );
 use Clustericious::Config;
+use Mojo::Loader;
 
 use base qw( Test::Builder::Module Exporter );
 
@@ -130,9 +131,26 @@ to the configuration file created.
 
 =cut
 
-sub create_config_ok ($$;$)
+sub create_config_ok ($;$$)
 {
   my($config_name, $config, $test_name) = @_;
+
+  unless(defined $config)
+  {
+    my $loader = Mojo::Loader->new;
+    my $caller = caller;
+    $loader->load($caller);
+    $config = $loader->data($caller, "etc/$config_name.conf");
+  }
+  
+  my $tb = __PACKAGE__->builder;  
+  my $ok = 1;
+  unless(defined $config)
+  {
+    $config = "---\n";
+    $tb->diag("unable to locate text for $config_name");
+    $ok = 0;
+  }
   
   my $config_filename = "$config_dir/$config_name.conf";
   
@@ -148,16 +166,18 @@ sub create_config_ok ($$;$)
       close $fh;
     }
   };
-  my $error = $@;
+  if(my $error = $@)
+  {
+    $ok = 0;
+    $tb->diag("exception: $error");
+  }
   
   $test_name //= "create config for $config_name at $config_filename";
   
   # remove any cached copy if necessary
   Clustericious::Config->_uncache($config_name);
-  
-  my $tb = __PACKAGE__->builder;  
-  $tb->ok($error eq '', $test_name);
-  $tb->diag("exception: $error") if $error;
+
+  $tb->ok($ok, $test_name);
   return $config_filename;
 }
 

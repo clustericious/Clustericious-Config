@@ -13,7 +13,7 @@ use base qw( Test::Builder::Module Exporter );
 
 our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok create_config_helper_ok );
 our @EXPORT_OK = @EXPORT;
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 my $config_dir;
 
@@ -121,7 +121,7 @@ to the configuration file created.
 
 =cut
 
-sub create_config_ok
+sub create_config_ok ($$;$)
 {
   my($config_name, $config, $test_name) = @_;
   
@@ -161,7 +161,7 @@ directory created.
 
 =cut
 
-sub create_directory_ok
+sub create_directory_ok ($;$)
 {
   my($path, $test_name) = @_;
   
@@ -184,7 +184,7 @@ Returns the full path of the home directory.
 
 =cut
 
-sub home_directory_ok
+sub home_directory_ok (;$)
 {
   my($test_name) = @_;
   

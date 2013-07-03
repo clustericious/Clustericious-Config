@@ -1,5 +1,6 @@
 Revision history for Clustericious-Config
 
+0.22    Wed Jul  3 15:00:09 EDT 2013
         - added create_config_helper_ok to Test::Clustericious::Config
         - don't re-use File::HomeDir::Test if it has already been loaded
 

@@ -26,9 +26,9 @@ use base qw( Exporter );
 
 our $VERSION = '0.23';
 our @mergeStack;
-our @EXPORT = qw( extends_config get_password );
+our @EXPORT = qw( extends_config get_password home );
 
-=head2 extends_config
+=head2 extends_config $config_name, %arguments
 
 Extend the config using another config file.
 
@@ -72,6 +72,19 @@ Prompt for a password, if it is needed.
 
 sub get_password {
     return Clustericious::Config::Password->sentinel;
+}
+
+=head2 home( [ $user ] )
+
+Return the given users's home directory, or if no user is
+specified return the calling user's home directory.
+
+=cut
+
+sub home (;$)
+{
+  require File::HomeDir;
+  $_[0] ? File::HomeDir->users_home($_[0]) : File::HomeDir->my_home;
 }
 
 =head1 SEE ALSO

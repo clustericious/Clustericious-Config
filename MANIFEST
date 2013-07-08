@@ -25,3 +25,4 @@ bin/clconfig
 t/colen.t
 t/data.t
 t/helper.t
+t/home.t

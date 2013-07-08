@@ -101,7 +101,7 @@ use YAML::XS ();
 use Mojo::Template;
 use Log::Log4perl qw/:easy/;
 use Storable;
-use Clustericious::Config::Plugin;
+use Clustericious::Config::Plugin ();
 use Data::Dumper;
 use Cwd ();
 use Module::Build;

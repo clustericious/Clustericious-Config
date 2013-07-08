@@ -1,5 +1,6 @@
 Revision history for Clustericious-Config
 
+0.23    Sun Jul  7 21:27:21 EDT 2013
         - substitute - for :: in config filenames
           for example ~/etc/Clustericious::HelloWorld.conf should now be
           ~/etc/Clustericious-HelloWorld.conf

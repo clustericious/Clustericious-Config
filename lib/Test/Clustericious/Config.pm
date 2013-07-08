@@ -23,7 +23,7 @@ use base qw( Test::Builder::Module Exporter );
 our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok create_config_helper_ok );
 our @EXPORT_OK = @EXPORT;
 our %EXPORT_TAGS = ( all => \@EXPORT );
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 
 my $config_dir;
 

@@ -135,12 +135,15 @@ sub create_config_ok ($;$$)
 {
   my($config_name, $config, $test_name) = @_;
 
+  my $fn = "$config_name.conf";
+  $fn =~ s/::/-/g;
+  
   unless(defined $config)
   {
     my $loader = Mojo::Loader->new;
     my $caller = caller;
     $loader->load($caller);
-    $config = $loader->data($caller, "etc/$config_name.conf");
+    $config = $loader->data($caller, "etc/$fn");
   }
   
   my $tb = __PACKAGE__->builder;  
@@ -152,7 +155,7 @@ sub create_config_ok ($;$$)
     $ok = 0;
   }
   
-  my $config_filename = "$config_dir/$config_name.conf";
+  my $config_filename = "$config_dir/$fn";
   
   eval {
     if(ref $config)

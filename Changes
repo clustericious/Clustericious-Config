@@ -1,5 +1,6 @@
 Revision history for Clustericious-Config
 
+0.24    Mon Jul  8 16:40:45 EDT 2013
         - added home helper for config files
         - added file helper for config files
         - added dir helper for config files

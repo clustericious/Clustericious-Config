@@ -114,6 +114,12 @@ sub dir
   Path::Class::File->new(@_);
 }
 
+=head1 AUTHORS
+
+Brian Duggan
+
+Graham Ollis <gollis@sesda3.com>
+
 =head1 SEE ALSO
 
 L<Clustericious::Config>, L<Clustericious>

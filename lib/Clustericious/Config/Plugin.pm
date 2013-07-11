@@ -26,7 +26,7 @@ using L<Clustericious::Config>.
 
 =cut
 
-our $VERSION = '0.24_02';
+our $VERSION = '0.24_03';
 our @mergeStack;
 our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full );
 

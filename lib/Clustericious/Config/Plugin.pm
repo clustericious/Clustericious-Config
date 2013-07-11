@@ -1,3 +1,13 @@
+package Clustericious::Config::Plugin;
+
+use strict;
+use warnings;
+use v5.10;
+use Hash::Merge qw/merge/;
+use Data::Dumper;
+use Carp qw( croak );
+use base qw( Exporter );
+
 =head1 NAME
 
 Clustericious::Config::Plugin - Plugins for clustericious config files.
@@ -16,18 +26,9 @@ using L<Clustericious::Config>.
 
 =cut
 
-package Clustericious::Config::Plugin;
-
-use Hash::Merge qw/merge/;
-use Data::Dumper;
-use Carp qw( croak );
-use strict;
-use warnings;
-use base qw( Exporter );
-
 our $VERSION = '0.24_01';
 our @mergeStack;
-our @EXPORT = qw( extends_config get_password home file dir );
+our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full );
 
 =head2 extends_config $config_name, %arguments
 
@@ -112,6 +113,39 @@ sub dir
   require Path::Class::Dir;
   croak "dir helper requires Path::Class" if $@;
   Path::Class::File->new(@_);
+}
+
+=head2 hostname
+
+The system hostname (uses L<Sys::Hostname>)
+
+=cut
+
+sub hostname
+{
+  state $hostname;
+  
+  unless(defined $hostname)
+  {
+    require Sys::Hostname;
+    $hostname = Sys::Hostname::hostname();
+    $hostname =~ s/\..*$//;
+  }
+  
+  $hostname;
+}
+
+=head2 hostname_full
+
+The system hostname in full, including the domain, if
+it can be determined (uses L<Sys::Hostname>).
+
+=cut
+
+sub hostname_full
+{
+  require Sys::Hostname;
+  Sys::Hostname::hostname();
 }
 
 =head1 AUTHORS

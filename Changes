@@ -1,5 +1,8 @@
 Revision history for Clustericious-Config
 
+        - added hostname helper for config files
+        - added hostname_full helper for config files
+
 0.24_01 Wed Jul 10 22:02:15 EDT 2013
         - converted clconfig into clustericious configtest
 

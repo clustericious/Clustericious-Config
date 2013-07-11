@@ -21,3 +21,6 @@ dist.ini
 lib/Test/Clustericious/Config.pm
 t/test_clustericious_config.t
 t/use.t
+lib/Clustericious/Command/configdebug.pm
+t/data.t
+t/helper.t

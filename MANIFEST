@@ -24,3 +24,8 @@ t/use.t
 lib/Clustericious/Command/configdebug.pm
 t/data.t
 t/helper.t
+t/colen.t
+t/data.t
+t/helper.t
+t/home.t
+t/pathclass.t

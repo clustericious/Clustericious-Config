@@ -20,15 +20,16 @@ package Clustericious::Config::Plugin;
 
 use Hash::Merge qw/merge/;
 use Data::Dumper;
+use Carp qw( croak );
 use strict;
 use warnings;
 use base qw( Exporter );
 
-our $VERSION = '0.21';
+our $VERSION = '0.24';
 our @mergeStack;
-our @EXPORT = qw( extends_config get_password );
+our @EXPORT = qw( extends_config get_password home file dir );
 
-=head2 extends_config
+=head2 extends_config $config_name, %arguments
 
 Extend the config using another config file.
 
@@ -73,6 +74,51 @@ Prompt for a password, if it is needed.
 sub get_password {
     return Clustericious::Config::Password->sentinel;
 }
+
+=head2 home( [ $user ] )
+
+Return the given users's home directory, or if no user is
+specified return the calling user's home directory.
+
+=cut
+
+sub home (;$)
+{
+  require File::HomeDir;
+  $_[0] ? File::HomeDir->users_home($_[0]) : File::HomeDir->my_home;
+}
+
+=head2 file( @list )
+
+The C<file> shortcut from Path::Class, if it is installed.
+
+=cut
+
+sub file
+{
+  eval { require Path::Class::File };
+  croak "file helper requires Path::Class" if $@;
+  Path::Class::File->new(@_);
+}
+
+=head2 dir( @list )
+
+The C<dir> shortcut from Path::Class, if it is installed.
+
+=cut
+
+sub dir
+{
+  require Path::Class::Dir;
+  croak "dir helper requires Path::Class" if $@;
+  Path::Class::File->new(@_);
+}
+
+=head1 AUTHORS
+
+Brian Duggan
+
+Graham Ollis <gollis@sesda3.com>
 
 =head1 SEE ALSO
 

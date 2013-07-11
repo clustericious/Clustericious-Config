@@ -14,13 +14,19 @@ Clustericious::Config::Password - password routines for Clustericious::Config
 This module provides the machiery for handling passwords used by
 L<Clustericious::Config> and L<Clustericious::Config::Plugin>.
 
+=head1 AUTHORS
+
+Brian Duggan
+
+Graham Ollis <gollis@sesda3.com>
+
 =head1 SEE ALSO
 
 L<Clustericious::Config>, L<Clustericious>
 
 =cut
 
-our $VERSION = '0.21';
+our $VERSION = '0.24';
 our $Stashed;
 
 sub sentinel {

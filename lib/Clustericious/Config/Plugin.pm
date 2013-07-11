@@ -112,7 +112,7 @@ sub dir
 {
   require Path::Class::Dir;
   croak "dir helper requires Path::Class" if $@;
-  Path::Class::File->new(@_);
+  Path::Class::Dir->new(@_);
 }
 
 =head2 hostname

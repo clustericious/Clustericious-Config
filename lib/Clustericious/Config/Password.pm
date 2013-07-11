@@ -26,7 +26,7 @@ L<Clustericious::Config>, L<Clustericious>
 
 =cut
 
-our $VERSION = '0.24';
+our $VERSION = '0.24_01';
 our $Stashed;
 
 sub sentinel {

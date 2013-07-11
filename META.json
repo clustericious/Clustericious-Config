@@ -40,24 +40,28 @@
       }
    },
    "provides" : {
+      "Clustericious::Command::configdebug" : {
+         "file" : "lib/Clustericious/Command/configdebug.pm",
+         "version" : "0.24_01"
+      },
       "Clustericious::Config" : {
          "file" : "lib/Clustericious/Config.pm",
-         "version" : "0.24"
+         "version" : "0.24_01"
       },
       "Clustericious::Config::Password" : {
          "file" : "lib/Clustericious/Config/Password.pm",
-         "version" : "0.24"
+         "version" : "0.24_01"
       },
       "Clustericious::Config::Plugin" : {
          "file" : "lib/Clustericious/Config/Plugin.pm",
-         "version" : "0.24"
+         "version" : "0.24_01"
       },
       "Test::Clustericious::Config" : {
          "file" : "lib/Test/Clustericious/Config.pm",
-         "version" : "0.24"
+         "version" : "0.24_01"
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/plicease/Clustericious-Config/issues"
@@ -70,5 +74,5 @@
          "url" : "git://github.com/plicease/Clustericious-Config.git"
       }
    },
-   "version" : "0.24"
+   "version" : "0.24_01"
 }

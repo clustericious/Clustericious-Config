@@ -7,7 +7,7 @@ use Mojo::Base 'Clustericious::Command';
 use Clustericious::Config;
 use YAML::XS qw( Dump );
 
-our $VERSION = '0.21';
+our $VERSION = '0.24_01';
 
 has description => <<EOT;
 print the various stages of the clustericious app configuration file

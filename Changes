@@ -1,5 +1,8 @@
 Revision history for Clustericious-Config
 
+0.24_01 Wed Jul 10 22:02:15 EDT 2013
+        - converted clconfig into clustericious configtest
+
 0.24    Mon Jul  8 16:40:45 EDT 2013
         - added home helper for config files
         - added file helper for config files

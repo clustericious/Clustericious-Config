@@ -30,3 +30,4 @@ t/helper.t
 t/home.t
 t/pathclass.t
 t/hostname.t
+t/json.t

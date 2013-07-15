@@ -28,22 +28,22 @@ no_index:
 provides:
   Clustericious::Command::configdebug:
     file: lib/Clustericious/Command/configdebug.pm
-    version: 0.24_03
+    version: 0.24_04
   Clustericious::Config:
     file: lib/Clustericious/Config.pm
-    version: 0.24_03
+    version: 0.24_04
   Clustericious::Config::Password:
     file: lib/Clustericious/Config/Password.pm
-    version: 0.24_03
+    version: 0.24_04
   Clustericious::Config::Plugin:
     file: lib/Clustericious/Config/Plugin.pm
-    version: 0.24_03
+    version: 0.24_04
   Test::Clustericious::Config:
     file: lib/Test/Clustericious/Config.pm
-    version: 0.24_03
+    version: 0.24_04
 resources:
   bugtracker: https://github.com/plicease/Clustericious-Config/issues
   homepage: http://perl.wdlabs.com/Clustericious-Config
   license: http://dev.perl.org/licenses/
   repository: git://github.com/plicease/Clustericious-Config.git
-version: 0.24_03
+version: 0.24_04

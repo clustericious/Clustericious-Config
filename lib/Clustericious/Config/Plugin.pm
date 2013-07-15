@@ -7,6 +7,7 @@ use Hash::Merge qw/merge/;
 use Data::Dumper;
 use Carp qw( croak );
 use base qw( Exporter );
+use JSON::XS qw( encode_json );
 
 =head1 NAME
 
@@ -28,7 +29,7 @@ using L<Clustericious::Config>.
 
 our $VERSION = '0.24_03';
 our @mergeStack;
-our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full );
+our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full json );
 
 =head2 extends_config $config_name, %arguments
 
@@ -146,6 +147,17 @@ sub hostname_full
 {
   require Sys::Hostname;
   Sys::Hostname::hostname();
+}
+
+=head2 json $ref
+
+Encode the given hash or list reference.
+
+=cut
+
+sub json ($)
+{
+  encode_json($_[0]);
 }
 
 =head1 AUTHORS

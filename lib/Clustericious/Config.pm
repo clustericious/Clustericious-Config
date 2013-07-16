@@ -307,11 +307,11 @@ sub AUTOLOAD {
     $self->$called;
 }
 
-=head2 set_singleton
+=head2 Clustericious::Config->set_singleton
 
-Clustericicious::Config->set_singleton(App => $object);
+Cache a config object to be returned by the constructor.  Usage:
 
-Cache a config object to be returned by the constructor.
+ Clustericicious::Config->set_singleton(App => $object);
 
 =cut
 

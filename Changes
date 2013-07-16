@@ -1,6 +1,8 @@
 Revision history for Clustericious-Config
 
 {{$NEXT}}
+
+0.24_05   2013-07-16 05:54:20 America/New_York
   - migrate to Dist::Zilla
 
 0.24_04 Sun Jul 14 23:04:22 EDT 2013

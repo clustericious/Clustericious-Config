@@ -111,8 +111,6 @@ which can be used to get system details (such as the home directory of
 the calling user or to prompt for passwords).  See L<Clustericious::Config::Helpers>
 for details.
 
-=head1 METHODS
-
 =cut
 
 use Clustericious::Config::Password;
@@ -154,6 +152,8 @@ sub _uncache {
 
 sub pre_rendered { }
 sub rendered { }
+
+=head1 CONSTRUCTOR
 
 =head2 new
 

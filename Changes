@@ -1,6 +1,8 @@
 Revision history for Clustericious-Config
 
-        - added json helper for config files
+{{$NEXT}}
+  - migrate to Dist::Zilla
+  - added json helper for config files
 
 0.24_03 Thu Jul 11 15:54:31 EDT 2013
         - bug fix: file returns a Path::Class::File instead of ::Dir

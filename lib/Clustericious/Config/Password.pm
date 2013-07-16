@@ -1,17 +1,15 @@
 package Clustericious::Config::Password;
 
 use Data::Dumper;
-
 use strict;
 use warnings;
 
-=head1 NAME
-
-Clustericious::Config::Password - password routines for Clustericious::Config
+# ABSTRACT: password routines for Clustericious::Config
+# VERSION
 
 =head1 DESCRIPTION
 
-This module provides the machiery for handling passwords used by
+This module provides the machinery for handling passwords used by
 L<Clustericious::Config> and L<Clustericious::Config::Plugin>.
 
 =head1 AUTHORS
@@ -26,7 +24,6 @@ L<Clustericious::Config>, L<Clustericious>
 
 =cut
 
-our $VERSION = '0.24_03';
 our $Stashed;
 
 sub sentinel {

@@ -9,9 +9,8 @@ use Carp qw( croak );
 use base qw( Exporter );
 use JSON::XS qw( encode_json );
 
-=head1 NAME
-
-Clustericious::Config::Plugin - Plugins for clustericious config files.
+# ABSTRACT: Plugins for clustericious config files.
+# VERSION
 
 =head1 SYNOPSIS
 
@@ -27,7 +26,6 @@ using L<Clustericious::Config>.
 
 =cut
 
-our $VERSION = '0.24_03';
 our @mergeStack;
 our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full json );
 
@@ -51,7 +49,7 @@ sub extends_config {
 # Called after reading all config files, to process extends_config
 # directives.
 #
-sub do_merges {
+sub _do_merges {
     my $class = shift;
     my $conf_data = shift; # Last one; Has highest precedence.
 
@@ -79,7 +77,7 @@ sub get_password {
 
 =head2 home( [ $user ] )
 
-Return the given users's home directory, or if no user is
+Return the given users' home directory, or if no user is
 specified return the calling user's home directory.
 
 =cut
@@ -159,12 +157,6 @@ sub json ($)
 {
   encode_json($_[0]);
 }
-
-=head1 AUTHORS
-
-Brian Duggan
-
-Graham Ollis <gollis@sesda3.com>
 
 =head1 SEE ALSO
 

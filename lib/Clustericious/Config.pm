@@ -1,6 +1,11 @@
-=head1 NAME
+package Clustericious::Config;
 
-Clustericious::Config - configuration files for Clustericious nodes.
+use strict;
+use warnings;
+use v5.10;
+
+# ABSTRACT: configuration files for Clustericious nodes.
+# VERSION
 
 =head1 SYNOPSIS
 
@@ -69,7 +74,7 @@ from another config file.  The first argument to extends_config is the
 basename of the config file.  Additional named arguments may be passed
 to that config file and used as variables within that file.  After
 reading another file, the hashes are merged (i.e. with Hash::Merge);
-so values anywhere inside the datastructure may be overridden.
+so values anywhere inside the data structure may be overridden.
 
 YAML config files must begin with "---", otherwise they are interpreted
 as JSON.
@@ -85,16 +90,7 @@ This will prompt the user the first time it is encountered.
 
 =cut
 
-package Clustericious::Config;
-
 use Clustericious::Config::Password;
-
-use strict;
-use warnings;
-use v5.10;
-
-our $VERSION = '0.24_03';
-
 use List::Util;
 use JSON::XS;
 use YAML::XS ();
@@ -136,7 +132,7 @@ sub rendered { }
 
 =head2 new
 
-Create a new Clustericious::Config object.  See the SYPNOSIS for
+Create a new Clustericious::Config object.  See the SYNOPSIS for
 possible invocations.
 
 =cut
@@ -222,7 +218,7 @@ sub new {
         }
     }
     $conf_data ||= {};
-    Clustericious::Config::Plugin->do_merges($conf_data);
+    Clustericious::Config::Plugin->_do_merges($conf_data);
     _add_heuristics($filename,$conf_data);
     # Use derived classes so that AUTOLOADING keeps namespaces separate
     # for various apps.
@@ -251,6 +247,14 @@ sub _add_heuristics {
 
 
 }
+
+=head1 METHODS
+
+=head2 $config-E<gt>dump_as_yaml
+
+Returns a string with the configuration encoded as YAML.
+
+=cut
 
 sub dump_as_yaml {
     my $c = shift;
@@ -333,17 +337,11 @@ that are outside of the build tree during unit testing.
 
 =head1 CAVEATS
 
-Some filesystems do not support filenames with a colen
-(:) character in them, so for apps with a double colen
+Some filesystems do not support filenames with a colon
+(:) character in them, so for apps with a double colon
 in them (for example L<Clustericious::HelloWorld>),
 a single dash character will be substituted for the name
 (for example C<Clustericious-HelloWorld.conf>).
-
-=head1 AUTHORS
-
-Brian Duggan
-
-Graham Ollis <gollis@sesda3.com>
 
 =head1 NOTES
 

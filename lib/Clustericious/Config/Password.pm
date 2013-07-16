@@ -10,7 +10,7 @@ use warnings;
 =head1 DESCRIPTION
 
 This module provides the machinery for handling passwords used by
-L<Clustericious::Config> and L<Clustericious::Config::Plugin>.
+L<Clustericious::Config> and L<Clustericious::Config::Helpers>.
 
 =head1 AUTHORS
 

@@ -249,12 +249,12 @@ sub create_config_helper_ok ($$;$)
   
   $test_name //= "create config helper $helper_name";
   
-  require Clustericious::Config::Plugin;
+  require Clustericious::Config::Helpers;
   do {
     no strict 'refs';
-    *{"Clustericious::Config::Plugin::$helper_name"} = $helper_code;
+    *{"Clustericious::Config::Helpers::$helper_name"} = $helper_code;
   };
-  push @Clustericious::Config::Plugin::EXPORT, $helper_name;
+  push @Clustericious::Config::Helpers::EXPORT, $helper_name;
   
   my $tb = __PACKAGE__->builder;
   $tb->ok(1, $test_name);

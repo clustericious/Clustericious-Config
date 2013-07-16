@@ -79,12 +79,10 @@ so values anywhere inside the data structure may be overridden.
 YAML config files must begin with "---", otherwise they are interpreted
 as JSON.
 
-Clustericious::Config provides a "get_password" function which will prompt
-for a password if it is needed.  It can be used like this :
-
- password : <%= get_password =%>
-
-This will prompt the user the first time it is encountered.
+This module provides a number of helpers
+which can be used to get system details (such as the home directory of
+the calling user or to prompt for passwords).  See L<Clustericious::Config::Helpers>
+for details.
 
 =head1 METHODS
 
@@ -97,7 +95,7 @@ use YAML::XS ();
 use Mojo::Template;
 use Log::Log4perl qw/:easy/;
 use Storable;
-use Clustericious::Config::Plugin ();
+use Clustericious::Config::Helpers ();
 use Data::Dumper;
 use Cwd ();
 use Module::Build;
@@ -159,7 +157,7 @@ sub new {
     
     state $package_counter = 0;
     my $namespace = "Clustericious::Config::TemplatePackage::Package$package_counter";
-    eval qq{ package $namespace; use Clustericious::Config::Plugin; };
+    eval qq{ package $namespace; use Clustericious::Config::Helpers; };
     die $@ if $@;
     $package_counter++;
     
@@ -218,7 +216,7 @@ sub new {
         }
     }
     $conf_data ||= {};
-    Clustericious::Config::Plugin->_do_merges($conf_data);
+    Clustericious::Config::Helpers->_do_merges($conf_data);
     _add_heuristics($filename,$conf_data);
     # Use derived classes so that AUTOLOADING keeps namespaces separate
     # for various apps.
@@ -349,7 +347,7 @@ This is a beta release. The API may change without notice.
 
 =head1 SEE ALSO
 
-L<Mojo::Template>, L<Hash::Merge>, L<Clustericious>, L<Clustericious::Client>
+L<Mojo::Template>, L<Hash::Merge>, L<Clustericious>, L<Clustericious::Client>, L<Clustericious::Config::Helpers>
 
 =cut
 

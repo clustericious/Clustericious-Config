@@ -1,4 +1,4 @@
-package Clustericious::Config::Plugin;
+package Clustericious::Config::Helpers;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use Carp qw( croak );
 use base qw( Exporter );
 use JSON::XS qw( encode_json );
 
-# ABSTRACT: Plugins for clustericious config files.
+# ABSTRACT: Helpers for clustericious config files.
 # VERSION
 
 =head1 SYNOPSIS
@@ -67,7 +67,8 @@ sub _do_merges {
 
 =head2 get_password
 
-Prompt for a password, if it is needed.
+Prompt for a password.  This will prompt the user the first time it is
+encountered for a password.
 
 =cut
 

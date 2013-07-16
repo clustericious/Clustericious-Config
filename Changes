@@ -1,0 +1,68 @@
+Revision history for Clustericious-Config
+
+0.24_05   2013-07-16 05:54:20 America/New_York
+  - migrate to Dist::Zilla
+
+0.24_04 Sun Jul 14 23:04:22 EDT 2013
+        - added json helper for config files
+
+0.24_03 Thu Jul 11 15:54:31 EDT 2013
+        - bug fix: file returns a Path::Class::File instead of ::Dir
+
+0.24_02 Thu Jul 11 15:42:37 EDT 2013
+        - added hostname helper for config files
+        - added hostname_full helper for config files
+
+0.24_01 Wed Jul 10 22:02:15 EDT 2013
+        - converted clconfig into clustericious configtest
+
+0.24    Mon Jul  8 16:40:45 EDT 2013
+        - added home helper for config files
+        - added file helper for config files
+        - added dir helper for config files
+
+0.23    Sun Jul  7 21:27:21 EDT 2013
+        - substitute - for :: in config filenames
+          for example ~/etc/Clustericious::HelloWorld.conf should now be
+          ~/etc/Clustericious-HelloWorld.conf
+
+0.22    Wed Jul  3 15:00:09 EDT 2013
+        - added create_config_helper_ok to Test::Clustericious::Config
+        - don't re-use File::HomeDir::Test if it has already been loaded
+
+0.21    Sun Jun 30 18:23:49 EDT 2013
+        - added example to Test::Clustericious::Config
+        - add clconfig debug script
+
+0.20    Wed Jun 26 21:47:02 EDT 2013
+        - require File::HomeDir 0.91 (need File::HomeDir::Test)
+
+0.18    Fri Jun 14 10:45:31 EDT 2013
+        - put template packages in Config::Clustericious::Config::TemplatePackage::Package{1,2,3...}
+        - put the app config package in Clustericious::Config::App::AppName
+
+0.17    Fri Jun 14 10:41:56 EDT 2013
+        - added Test::Clustericious::Config
+
+0.16    Wed Jun  5 13:21:54 EDT 2013
+        - Documentation
+
+0.15    Wed Jun  5 10:05:10 EDT 2013
+        Added back changes from 0.13 that got reverted in 0.14
+
+0.14    Tue Jun  4 07:56:15 EDT 2013
+        Run template in different package
+
+0.13    Sat Jun  1 13:23:55 EDT 2013
+        fixed autoload conflicts, home, dclone, etc.
+
+0.12    Mon Aug 27 10:38:42 EDT 2012
+        portability improvements (Graham)
+
+0.11    Tue Aug 21 17:14:45 EDT 2012
+        support Makefile.PL
+
+0.10    Thu Aug 16 11:49:10 EDT 2012
+        first release
+
+

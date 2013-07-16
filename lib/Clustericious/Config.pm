@@ -327,11 +327,12 @@ If the environment variable HARNESS_ACTIVE is set,
 and the current module::build object tells us that
 the calling module is being tested, then an empty
 configuration is used.  In this situation, however,
-if $ENV{CLUSTERICIOUS_CONF_DIR} is set and if it
-is a subdirectory of the current directory, then
-it will be used.  This allows unit tests to provide
-configuration directories, but avoids using configurations
-that are outside of the build tree during unit testing.
+if the CLUSTERICIOUS_CONF_DIR environment variable
+is set and if it is a subdirectory of the current 
+directory, then it will be used.  This allows unit 
+tests to provide configuration directories, but 
+avoids using configurations that are outside of 
+the build tree during unit testing.
 
 =head1 CAVEATS
 

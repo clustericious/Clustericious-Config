@@ -4,7 +4,7 @@ Clustericious::Config - configuration files for Clustericious nodes.
 
 =head1 VERSION
 
-version 0.24_06
+version 0.25
 
 =head1 SYNOPSIS
 

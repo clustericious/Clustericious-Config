@@ -23,7 +23,6 @@ use base qw( Test::Builder::Module Exporter );
 our @EXPORT = qw( create_config_ok create_directory_ok home_directory_ok create_config_helper_ok );
 our @EXPORT_OK = @EXPORT;
 our %EXPORT_TAGS = ( all => \@EXPORT );
-our $VERSION = '0.24_03';
 
 my $config_dir;
 
@@ -38,9 +37,8 @@ sub _init
 
 BEGIN { _init() }
 
-=head1 NAME
-
-Test::Clustericious::Config - Test Clustericious::Config
+# ABSTRACT: Test Clustericious::Config
+# VERSION
 
 =head1 SYNOPSIS
 
@@ -211,7 +209,7 @@ sub create_directory_ok ($;$)
 
 =head2 home_directory_ok [$test_name]
 
-Tests that the temp homedirectory has been created okay.
+Tests that the temp home directory has been created okay.
 Returns the full path of the home directory.
 
 =cut
@@ -251,12 +249,12 @@ sub create_config_helper_ok ($$;$)
   
   $test_name //= "create config helper $helper_name";
   
-  require Clustericious::Config::Plugin;
+  require Clustericious::Config::Helpers;
   do {
     no strict 'refs';
-    *{"Clustericious::Config::Plugin::$helper_name"} = $helper_code;
+    *{"Clustericious::Config::Helpers::$helper_name"} = $helper_code;
   };
-  push @Clustericious::Config::Plugin::EXPORT, $helper_name;
+  push @Clustericious::Config::Helpers::EXPORT, $helper_name;
   
   my $tb = __PACKAGE__->builder;
   $tb->ok(1, $test_name);
@@ -267,7 +265,7 @@ sub create_config_helper_ok ($$;$)
 
 =head1 EXAMPLES
 
-Here is an (abreviated) example from L<Yars> that show how to test against an app
+Here is an (abbreviated) example from L<Yars> that show how to test against an app
 where you need to know the port/url of the app in the configuration
 file:
 
@@ -293,23 +291,5 @@ file:
  $t->get_ok('/status');
 
 To see the full tests see t/073_tempdir.t in the L<Yars> distribution.
-
-=head1 AUTHOR
-
-Graham Ollis <gollis@sesda3.com>
-
-=head1 SEE ALSO
-
-=over 4
-
-=item *
-
-L<Clustericious::Config>
-
-=item *
-
-L<Clustericious>
-
-=back
 
 =cut

@@ -1,10 +1,16 @@
-=head1 NAME
+package Clustericious::Config;
 
-Clustericious::Config - configuration files for Clustericious nodes.
+use strict;
+use warnings;
+use v5.10;
+
+# ABSTRACT: configuration files for Clustericious nodes.
+# VERSION
 
 =head1 SYNOPSIS
 
- $ cat > ~/etc/MyApp.conf
+In your ~/etc/MyApp.conf file:
+
  ---
  % extends_config 'global';
  % extends_config 'hypnotoad', url => 'http://localhost:9999', app => 'MyApp';
@@ -13,20 +19,46 @@ Clustericious::Config - configuration files for Clustericious nodes.
  start_mode : hypnotoad
  hypnotoad :
     - heartbeat_timeout : 500
+ 
+ arbitrary_key: value
 
- $ cat > ~/global.conf
+In your ~/etc/globa.conf file:
+
  ---
  somevar : somevalue
 
- $ cat > ~/hypnotoad.conf
+In your ~/etc/hypnotoad.conf:
+
  listen :
     - <%= $url %>
- pid_file : <%= $ENV{HOME} %>/<%= $app %>/hypnotoad.pid
+ # home uses File::HomeDir to find the calling users'
+ # home directory
+ pid_file : <%= home %>/<%= $app %>/hypnotoad.pid
  env :
-    MOJO_HOME : <%= $ENV{HOME} %>/<%= $app %>
+    MOJO_HOME : <%= home %>/<%= $app %>
 
-Then later in a program somewhere :
+From a L<Clustericious::App>:
 
+ package MyApp;
+ 
+ use Mojo::Base qw( Clustericious::App );
+ 
+ package MyApp::Routes;
+ 
+ use Clustericious::RouteBuilder;
+ 
+ get '/' => sub {
+   my $c = shift;
+   my $config = $c; # $config isa Clustericious::Config
+   
+   # returns the value if it is defined, foo otherwise
+   my $value = $config->arbitrary_key(default => 'foo');
+ };
+
+From a script:
+
+ use Clustericious::Config;
+ 
  my $c = Clustericious::Config->new("MyApp");
  my $c = Clustericious::Config->new( \$config_string );
  my $c = Clustericious::Config->new( \%config_data_structure );
@@ -69,39 +101,26 @@ from another config file.  The first argument to extends_config is the
 basename of the config file.  Additional named arguments may be passed
 to that config file and used as variables within that file.  After
 reading another file, the hashes are merged (i.e. with Hash::Merge);
-so values anywhere inside the datastructure may be overridden.
+so values anywhere inside the data structure may be overridden.
 
 YAML config files must begin with "---", otherwise they are interpreted
 as JSON.
 
-Clustericious::Config provides a "get_password" function which will prompt
-for a password if it is needed.  It can be used like this :
-
- password : <%= get_password =%>
-
-This will prompt the user the first time it is encountered.
-
-=head1 METHODS
+This module provides a number of helpers
+which can be used to get system details (such as the home directory of
+the calling user or to prompt for passwords).  See L<Clustericious::Config::Helpers>
+for details.
 
 =cut
 
-package Clustericious::Config;
-
 use Clustericious::Config::Password;
-
-use strict;
-use warnings;
-use v5.10;
-
-our $VERSION = '0.24_03';
-
 use List::Util;
 use JSON::XS;
 use YAML::XS ();
 use Mojo::Template;
 use Log::Log4perl qw/:easy/;
 use Storable;
-use Clustericious::Config::Plugin ();
+use Clustericious::Config::Helpers ();
 use Data::Dumper;
 use Cwd ();
 use Module::Build;
@@ -134,9 +153,11 @@ sub _uncache {
 sub pre_rendered { }
 sub rendered { }
 
+=head1 CONSTRUCTOR
+
 =head2 new
 
-Create a new Clustericious::Config object.  See the SYPNOSIS for
+Create a new Clustericious::Config object.  See the SYNOPSIS for
 possible invocations.
 
 =cut
@@ -163,7 +184,7 @@ sub new {
     
     state $package_counter = 0;
     my $namespace = "Clustericious::Config::TemplatePackage::Package$package_counter";
-    eval qq{ package $namespace; use Clustericious::Config::Plugin; };
+    eval qq{ package $namespace; use Clustericious::Config::Helpers; };
     die $@ if $@;
     $package_counter++;
     
@@ -222,7 +243,7 @@ sub new {
         }
     }
     $conf_data ||= {};
-    Clustericious::Config::Plugin->do_merges($conf_data);
+    Clustericious::Config::Helpers->_do_merges($conf_data);
     _add_heuristics($filename,$conf_data);
     # Use derived classes so that AUTOLOADING keeps namespaces separate
     # for various apps.
@@ -251,6 +272,14 @@ sub _add_heuristics {
 
 
 }
+
+=head1 METHODS
+
+=head2 $config-E<gt>dump_as_yaml
+
+Returns a string with the configuration encoded as YAML.
+
+=cut
 
 sub dump_as_yaml {
     my $c = shift;
@@ -303,11 +332,11 @@ sub AUTOLOAD {
     $self->$called;
 }
 
-=head2 set_singleton
+=head2 Clustericious::Config->set_singleton
 
-Clustericicious::Config->set_singleton(App => $object);
+Cache a config object to be returned by the constructor.  Usage:
 
-Cache a config object to be returned by the constructor.
+ Clustericicious::Config->set_singleton(App => $object);
 
 =cut
 
@@ -325,25 +354,20 @@ If the environment variable HARNESS_ACTIVE is set,
 and the current module::build object tells us that
 the calling module is being tested, then an empty
 configuration is used.  In this situation, however,
-if $ENV{CLUSTERICIOUS_CONF_DIR} is set and if it
-is a subdirectory of the current directory, then
-it will be used.  This allows unit tests to provide
-configuration directories, but avoids using configurations
-that are outside of the build tree during unit testing.
+if the CLUSTERICIOUS_CONF_DIR environment variable
+is set and if it is a subdirectory of the current 
+directory, then it will be used.  This allows unit 
+tests to provide configuration directories, but 
+avoids using configurations that are outside of 
+the build tree during unit testing.
 
 =head1 CAVEATS
 
-Some filesystems do not support filenames with a colen
-(:) character in them, so for apps with a double colen
+Some filesystems do not support filenames with a colon
+(:) character in them, so for apps with a double colon
 in them (for example L<Clustericious::HelloWorld>),
 a single dash character will be substituted for the name
 (for example C<Clustericious-HelloWorld.conf>).
-
-=head1 AUTHORS
-
-Brian Duggan
-
-Graham Ollis <gollis@sesda3.com>
 
 =head1 NOTES
 
@@ -351,7 +375,7 @@ This is a beta release. The API may change without notice.
 
 =head1 SEE ALSO
 
-L<Mojo::Template>, L<Hash::Merge>, L<Clustericious>, L<Clustericious::Client>
+L<Mojo::Template>, L<Hash::Merge>, L<Clustericious>, L<Clustericious::Client>, L<Clustericious::Config::Helpers>
 
 =cut
 

@@ -1,5 +1,23 @@
 Revision history for Clustericious-Config
 
+{{$NEXT}}
+
+0.26      2013-08-31 14:31:30 America/New_York
+  - require Path::Class 0.26 for spew()
+
+0.25      2013-07-18 09:20:51 America/New_York
+  - promote to production
+
+0.24_06   2013-07-17 15:48:26 America/New_York
+  - rename Clustericious::Config::Plugin to ::Helpers
+  - create a deprecated module ::Plugin to keep Test::Clustericious::Cluster working
+
+0.24_05   2013-07-16 05:54:20 America/New_York
+  - migrate to Dist::Zilla
+
+0.24_04 Sun Jul 14 23:04:22 EDT 2013
+        - added json helper for config files
+
 0.24_03 Thu Jul 11 15:54:31 EDT 2013
         - bug fix: file returns a Path::Class::File instead of ::Dir
 

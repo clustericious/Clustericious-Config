@@ -7,7 +7,45 @@ use Mojo::Base 'Clustericious::Command';
 use Clustericious::Config;
 use YAML::XS qw( Dump );
 
-our $VERSION = '0.24_03';
+# ABSTRACT: debug a clustericious configuration file
+# VERSION
+
+=head1 SYNOPSIS
+
+Given a L<YourApp> clustericious L<Clustericious::App> and C<yourapp> starter script:
+
+ % yourapp configdebug
+
+or
+
+ % clustericious configdebug YourApp
+
+=head1 DESCRIPTION
+
+This command prints out:
+
+=over 4
+
+=item
+
+The pre-processed template configuration for each configuration file used by your application.
+
+=item
+
+The post-processed template configuration for each configuration file used by your application.
+
+=item
+
+The final merged configuration
+
+=back
+
+=head1 SEE ALSO
+
+L<Clustericious::Config>,
+L<Clustericious>
+
+=cut
 
 has description => <<EOT;
 print the various stages of the clustericious app configuration file

@@ -1,3 +1,7 @@
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
 Clustericious::Config - configuration files for Clustericious nodes.

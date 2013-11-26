@@ -7,7 +7,6 @@ File::HomeDir::Test
 File::Path
 File::Temp
 Hash::Merge
-IO::File
 JSON::XS
 List::Util
 Log::Log4perl

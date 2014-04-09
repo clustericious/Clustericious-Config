@@ -1,10 +1,12 @@
+=pod
+
 =head1 NAME
 
 Clustericious::Config - configuration files for Clustericious nodes.
 
 =head1 VERSION
 
-version 0.27
+version 0.28
 
 =head1 SYNOPSIS
 
@@ -129,19 +131,6 @@ Cache a config object to be returned by the constructor.  Usage:
 
  Clustericicious::Config->set_singleton(App => $object);
 
-=head1 ENVIRONMENT
-
-If the environment variable HARNESS_ACTIVE is set,
-and the current module::build object tells us that
-the calling module is being tested, then an empty
-configuration is used.  In this situation, however,
-if the CLUSTERICIOUS_CONF_DIR environment variable
-is set and if it is a subdirectory of the current 
-directory, then it will be used.  This allows unit 
-tests to provide configuration directories, but 
-avoids using configurations that are outside of 
-the build tree during unit testing.
-
 =head1 CAVEATS
 
 Some filesystems do not support filenames with a colon
@@ -171,3 +160,4 @@ This software is copyright (c) 2013 by NASA GSFC.
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
+=cut

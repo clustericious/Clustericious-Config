@@ -4,7 +4,7 @@ use Data::Dumper;
 use strict;
 use warnings;
 
-# ABSTRACT: password routines for Clustericious::Config
+# ABSTRACT: Password routines for Clustericious::Config
 # VERSION
 
 =head1 DESCRIPTION

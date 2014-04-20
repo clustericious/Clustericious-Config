@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Clustericious::Config::Helpers;
 
-# ABSTRACT: deprecated module
+# ABSTRACT: Deprecated module
 # VERSION
 
 =head1 DESCRIPTION

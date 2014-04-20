@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Clustericious::Config - configuration files for Clustericious nodes.
+Clustericious::Config - Configuration files for Clustericious nodes.
 
 =head1 VERSION
 

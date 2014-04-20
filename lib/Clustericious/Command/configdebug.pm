@@ -7,7 +7,7 @@ use Mojo::Base 'Clustericious::Command';
 use Clustericious::Config;
 use YAML::XS qw( Dump );
 
-# ABSTRACT: debug a clustericious configuration file
+# ABSTRACT: Debug a clustericious configuration file
 # VERSION
 
 =head1 SYNOPSIS

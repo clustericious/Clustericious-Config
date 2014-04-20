@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use v5.10;
 
-# ABSTRACT: configuration files for Clustericious nodes.
+# ABSTRACT: Configuration files for Clustericious nodes.
 # VERSION
 
 =head1 SYNOPSIS

@@ -27,7 +27,7 @@ using L<Clustericious::Config>.
 =cut
 
 our @mergeStack;
-our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full json );
+our @EXPORT = qw( extends_config get_password home file dir hostname hostname_full json yaml );
 
 =head2 extends_config $config_name, %arguments
 
@@ -157,6 +157,21 @@ Encode the given hash or list reference.
 sub json ($)
 {
   encode_json($_[0]);
+}
+
+=head2 yaml $ref
+
+Encode the given hash or list reference.
+
+=cut
+
+sub yaml ($)
+{
+  require YAML::XS;
+  local $YAML::UseHeader = 0;
+  my $str = YAML::XS::Dump($_[0]);
+  $str =~ s{^---\n}{};
+  $str;
 }
 
 =head1 SEE ALSO

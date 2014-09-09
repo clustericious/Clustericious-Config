@@ -1,6 +1,7 @@
 Revision history for Clustericious-Config
 
 {{$NEXT}}
+  - added yaml helper for dumping yaml
 
 0.28      2014-04-09 12:06:48 America/New_York
   - remove test harness detection

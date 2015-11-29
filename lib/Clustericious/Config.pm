@@ -7,6 +7,12 @@ use v5.10;
 # ABSTRACT: Configuration files for Clustericious nodes.
 # VERSION
 
+=head1 MOVED
+
+This is the old version of L<Clustericious::Config> from before it was merged
+back into core L<Clustericious>.  Please see the L<Clustericious> main repository
+here: L<https://github.com/clustericious/Clustericious>.
+
 =head1 SYNOPSIS
 
 In your ~/etc/MyApp.conf file:
